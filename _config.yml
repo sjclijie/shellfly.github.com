@@ -1,11 +1,11 @@
 # ----------------------- #
 #      Main Configs       #
-# ----------------------- #
+# ---------------------- #
 
 url: http://shellfly.github.com
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+title:shellfly's Blog
+subtitle: eh...
+author: shellfly 
 simple_search: http://google.com/search
 description:
 
