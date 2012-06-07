@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[伤风's blog]]></title>
-  <link href="http://shellfly.github.com/atom.xml" rel="self"/>
+  <title><![CDATA[Category: essay | 伤风's blog]]></title>
+  <link href="http://shellfly.github.com/blog/categories/essay/atom.xml" rel="self"/>
   <link href="http://shellfly.github.com/"/>
   <updated>2012-06-07T15:42:38+08:00</updated>
   <id>http://shellfly.github.com/</id>
