@@ -1,4 +1,14 @@
 // This File is imported last, and will override other styles in the cascade
 // Add styles here to make changes without digging in too much
-#friend-links {list-style-type:none}
-.friend-link {float:left; margin:5px}
+.archive-node {padding:3px; margin-bottom:3px;
+	}
+#friend-links {
+//	  width: 80%;
+//	    height: 23px;
+
+	      ul { list-style-type: none; }
+	        li {
+			    float: left;
+			        a { font-weight: bold; }
+				  }
+			  }
