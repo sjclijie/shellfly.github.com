@@ -1,0 +1,207 @@
+---
+layout: post
+title: "SICP 笔记-构造过程抽象"
+date: 2012-06-08 20:29
+comments: true
+categories: note
+---
+
+写这篇笔记并不是代表开始学SICP，而是要先把它放下一阵子。看了大概有一个
+月了,第二章还没看完（一个月才一章……），之所以看这么慢有2个原因，一方面这本书对我来
+说真的有点难度，从emacs开始知道函数式编程语言，只看过一些简单的介绍和几个
+elisp函数，况且这本书不是教编程语言而是很多关于计算过程的理论知识，看到第二章时进度就已经快速递减到0了。
+另一个原因是因为暑假快到了，怕时间不够用，就在同一时间看了好几本书，本
+以为自己消化得了，结果变成了"欲速则不达" 
+
+下面是笔记的正文
+### 过程的基本知识
+
+* 过程
+
+在scheme里过程和变量都是由define定义，函数式编程语言里的过程和数据的差
+别很小，在很多地方过程也可以和普通数据一样使用，例如作为函数的参数或者
+包含在数据结构中。
+{% codeblock %}
+(define (square x) (* x x))
+(square 2)
+4
+{% endcodeblock %}
+
+稍微复杂点的复合过程
+{% codeblock %}
+(define (sum-square a b) 
+    (+ (square a) (square b)))
+(sum-square 3 4)
+25
+{% endcodeblock %}
+
+*  **应用序** 和 **正则序**
+
+象上面这种复杂的过程，解释器在求解其值时有两种代换模型,采用应用序时，解释器先求出各个参数的值，然后将过程应用于参数，而采用
+正则序时，则是先把过程全部展开，最后才求值。lisp采用应用序求值。
+{% codeblock %}
+(sum-square (+1 2) (- 3 2))
+
+应有序求值过程：
+(sum-square (+1 2) (- 3 2))
+(sum-square 3 1)
+(+ (square 3) (square 1))
+(+ (* 3 3) (* 1 1))
+(+ 9 1)
+10
+
+正则序
+全部展开：
+(+   (square  (+ 1 2))    (square  (- 3 2)) )
+    
+(+   (* (+1 2) (+1 2))    (* (- 3 2) (- 3 2)))    
+归约：
+(+ (* 3 3) (* 1 1))
+(+ 9 1)
+10
+{% endcodeblock %}
+
+可以看到不同的代换模型求出来的值都是一样的，只是过程的区别，正则序需要
+进行许多重复的计算，不过一些特殊的过程，并不是2种模型都适合的，所以虽
+然lisp使用应用序，在一些特殊情况下还是需要正则序来完成计算的。书后面的
+练习1.5就是个例子。
+
+### 过程产生的计算
+
+* 递归和迭代
+ 
+ 在lisp中 **递归过程** 可以产生 **递归计算过程** 也可以产生 **迭代计算
+ 过程**，并不需要像结构式语言那样显示借助于循环结构才能写出来迭代的计算过程。
+ 
+ 最简单的递归过程就是计算阶乘的例子,下面这个过程产生的计算是 **线性递归计
+ 算过程** 
+ {% codeblock %}
+ (define (factorial n)
+     (if (= n 1)
+         1
+         (* n (factorial (- n 1)))))
+ {% endcodeblock %}
+ 
+ 迭代的计算过程都是可以用一定的 **状态变量** 描述的计算过程，所以产生
+ 迭代计算过程的 过程都要在计算中维持几个 状态变量，在计算阶乘的时就可以用维持一个 计数器counter，最大值n和 乘积product来描述，下
+ 面的过程产生的是 **线性迭代计算过程**
+ {% codeblock %}
+ (define (factorial n)
+     (define (iter counter product)
+         (if (> counter n)
+             product
+             (iter (+ counter 1) (* counter product))))
+     (iter 1 1))
+ {% endcodeblock %}
+ 
+ **树形递归**计算过程需要更多的计算步奏，使用递归算法计算斐波那契数列产生
+ 的就是 树形递归计算过程
+ {% codeblock %}
+ (define (fib n)
+    (cond ((= n 0) 0)
+          ((= n 1) 1)
+          (else (+ (fib (- n 1))
+                   (fib (- n 2))))))
+ {% endcodeblock %}
+ 
+ 可以使用产生迭代计算过程的方法来优化过程
+ {% codeblock %}
+(define (fib n)
+    (define (iter a b counter) 
+        (if (> counter n)
+            b
+            (iter (+ a b) a (+counter 1))))
+    (iter 1 0 0))
+ {% endcodeblock %}
+
+### 使用高阶函数
+lisp中过程可以当作　**第一级计算元素**，也就是说过程具有这些权利:
+
+* 可以用变量命名
+
+* 可以做为函数的参数
+
+* 可以作为函数的返回值
+
+* 可以包含在数据结构中
+
+ {% codeblock %}
+ 计算：f(x,y)=x(1+xy) + y(1-y) + (1+xy)(1-y)
+ 利用辅助过程：
+ (define (f x y)
+     (define (f2 a b)
+         (+ (* x a)
+             (* y b)
+              (* ab)))
+     (f2 (+ 1 (* x y))
+         (- 1 y)))
+         
+ 利用lambda：
+ (define (f x y)
+     ((lambda (a b)
+         (+ (* x a)
+             (* y b)
+             (* ab)))
+         (+ 1 (* x y))
+         (- 1 y)))
+         
+ 利用let创建局部变量:
+ (define (f x y)
+     (let ((a (+ 1 (* x y)))
+          (b (- 1 y)))
+          (+ (* x a) 
+              (* y b) 
+              (* a b))))
+ 
+ {% endcodeblock %}
+
+### 一些练习答案
+exer1.11: 
+
+{% codeblock %}
+递归：
+(define (f n)
+    (if (< n 3)
+        n
+        (+ (f (- n 1)
+            (* 2 (f (- n 2)))
+            (* 3 (f (- n 3)))))))
+
+迭代：
+(define (f n)
+    (define (iter a b c counter)
+        (if (< counter 0)
+            c 
+            (iter b c (+ (* 3 a)
+                          (* 2 b)
+                          c) (- counter 1))))
+    (if (< n 3)
+        n
+        (iter 0 1 2 (- n 3))))
+{% endcodeblock %}
+
+exer1.16:
+```
+(define (fast-expt b n)
+    (define (iter a b n)
+        (cond ((= n 0) a)
+              ((even? n) (iter a (square b) (/ n 2)))
+              (else (iter (* a b) b (- n 1)))))
+    (iter 1 b n))
+```             
+exer1.17:
+```
+(define (fast-product a b)
+    (cond ((= b 0) 0)
+          ((even? b) (double (fast-product a (/ b 2))))
+          (else (+ a (fast-product a (- b 1))))))
+```           
+exer1.18:
+```
+(define (fast-product a b)
+    (define (iter n a b)
+        (cond ((= b 0) n)
+              ((even? b) (iter n (double a) (/ b 2)))
+              (else (iter (+ n a) a (- b 1)))))
+     (iter 0 a b))
+```
