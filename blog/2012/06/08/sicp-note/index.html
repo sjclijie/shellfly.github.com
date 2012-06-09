@@ -1,24 +1,129 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[伤风's blog]]></title>
-  <link href="http://shellfly.github.com/atom.xml" rel="self"/>
-  <link href="http://shellfly.github.com/"/>
-  <updated>2012-06-09T17:12:04+08:00</updated>
-  <id>http://shellfly.github.com/</id>
-  <author>
-    <name><![CDATA[shellfly]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SICP 笔记-构造过程抽象 - 伤风's blog</title>
+  <meta name="author" content="shellfly">
 
   
-  <entry>
-    <title type="html"><![CDATA[SICP 笔记-构造过程抽象]]></title>
-    <link href="http://shellfly.github.com/blog/2012/06/08/sicp-note/"/>
-    <updated>2012-06-08T20:29:00+08:00</updated>
-    <id>http://shellfly.github.com/blog/2012/06/08/sicp-note</id>
-    <content type="html"><![CDATA[<p>写这篇笔记并不是代表开始学SICP，而是要先把它放下一阵子。看了大概有一个
+  <meta name="description" content="写这篇笔记并不是代表开始学SICP，而是要先把它放下一阵子。看了大概有一个
+月了,第二章还没看完（一个月才一章……），之所以看这么慢有2个原因，一方面这本书对我来
+说真的有点难度，从emacs开始知道函数式编程语言，只看过一些简单的介绍和几个
+elisp函数， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://shellfly.github.com/blog/2012/06/08/sicp-note">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="伤风's blog" type="application/atom+xml">
+  
+  
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="/">伤风's blog</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+
+        <ul class="nav pull-right" data-subscription="rss">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://google.com/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:shellfly.github.com" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container">
+    <div class="row-fluid">
+      
+<article class="hentry span9" role="article">
+
+  
+  <header class="page-header">
+    
+      <h1 class="entry-title">SICP 笔记-构造过程抽象</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-08T20:29:00+08:00" pubdate data-updated="true">Jun 8<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>写这篇笔记并不是代表开始学SICP，而是要先把它放下一阵子。看了大概有一个
 月了,第二章还没看完（一个月才一章……），之所以看这么慢有2个原因，一方面这本书对我来
 说真的有点难度，从emacs开始知道函数式编程语言，只看过一些简单的介绍和几个
 elisp函数，况且这本书不是教编程语言而是很多关于计算过程的理论知识，看到第二章时进度就已经快速递减到0了。
@@ -338,62 +443,136 @@ exer1.18:</p>
 </span><span class='line'>              (else (iter (+ n a) a (- b 1)))))
 </span><span class='line'>     (iter 0 a b))</span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
   
-  <entry>
-    <title type="html"><![CDATA[git intro]]></title>
-    <link href="http://shellfly.github.com/blog/2012/06/08/git-introduction/"/>
-    <updated>2012-06-08T13:40:00+08:00</updated>
-    <id>http://shellfly.github.com/blog/2012/06/08/git-introduction</id>
-    <content type="html"><![CDATA[<p>http://marklodato.github.com/visual-git-guide/index-en.html</p>
 
-<p><a href="http://rogerdudler.github.com/git-guide/">git - the simple guide</a></p>
+<span class="byline author vcard">Posted by <span class="fn">shellfly</span></span>
 
-<p><a href="http://git-scm.com/book/zh">Pro git</a> (翻译的有错误)</p>
-]]></content>
-  </entry>
+      
+
+
+
+
+
+
+
+
   
-  <entry>
-    <title type="html"><![CDATA[hello world]]></title>
-    <link href="http://shellfly.github.com/blog/2012/06/07/hello-world/"/>
-    <updated>2012-06-07T13:52:00+08:00</updated>
-    <id>http://shellfly.github.com/blog/2012/06/07/hello-world</id>
-    <content type="html"><![CDATA[<p>int main()
-{</p>
 
-<pre><code>print ("hello world\n");
-return 0;
-</code></pre>
 
-<p>}</p>
-]]></content>
-  </entry>
+<time datetime="2012-06-08T20:29:00+08:00" pubdate data-updated="true">Jun 8<span>th</span>, 2012</time>
+      
+
+<span class="categories">
   
-  <entry>
-    <title type="html"><![CDATA[new start]]></title>
-    <link href="http://shellfly.github.com/blog/2012/06/06/new-start/"/>
-    <updated>2012-06-06T23:26:00+08:00</updated>
-    <id>http://shellfly.github.com/blog/2012/06/06/new-start</id>
-    <content type="html"><![CDATA[<p>就像现在所显示的，原来使用免费空间搭建的wordpress博客没有了，告诉我需要付费才能弄回来原来的空间。其实000webhost用着挺不错的，半年多了也没出
-什么问题，虽然数据库有备份，但想想还是算了，从新开始也不错。之前因为电
-脑出了点问题，修了很多天才弄好而且电脑被全盘格式化了，这次又来这个，貌似人品还没攒够？</p>
-
-<p>shellfly.org这个域名要到10月份才到期，之后也不打算在续费了，所以以后如果想再来的话（虽然现在没什么东西，但
-还是希望有人来看。。）就直接用shellfly.github.com吧。github真是个好东
-西。</p>
-
-<p>之前虽然一直想看看git的书，但一直没找到机会，反而这次搭建博客把git弄懂了一
-点，理论上虽然还差一点，但简单的操作都ok了。ruby之前没接触过，所以今天在图书馆也借了本ruby的书，markdown也没用
-过，这第一篇文章估计也不怎么好看，没什么格式，博客落下很久了，先写点试
-试，好久没写东西了。前几天考完了软件设计师，感觉挺简单的（希望不是我感觉错误）等着拿证书，好像要等半年才
-能出来。虽然这种考试看上去没什么用，不过乘此机会好好看了下算法和数据结构，还看了点编译原理，收获还是有的。</p>
-
-<p>6月7号，今天正好是高考的日子，三年的时间就这么过去了，好像越长大，时间
-过的越快？如果大二的时候没有下定决心不在玩游戏，不知道现在的自己是一副
-什么样子。发现自己写文章果然没什么天赋啊，跳变太多了 看来大脑里都是数字信
-号啊 什么时候能弄个D/A转换器 转换成模拟信号就好了…… 不管怎样，找到新起点的感觉也是不错的</p>
-]]></content>
-  </entry>
+    <a class='category' href='/blog/categories/note/'>note</a>
   
-</feed>
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    
+    <section>
+      <h1>Comments</h1>
+      <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </section>
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2012/06/08/git-introduction/" title="Previous Post:
+        git intro">&laquo; git intro</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+<aside class="sidebar-nav span3">
+  
+    <section class="well">
+  <ul id="recent_posts" class="nav nav-list">
+    <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2012/06/08/sicp-note/">SICP 笔记-构造过程抽象</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/06/08/git-introduction/">git intro</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/06/07/hello-world/">hello world</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/06/06/new-start/">new start</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><hr>
+<p>
+  Copyright &copy; 2012 - shellfly -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'shellfly';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://shellfly.github.com/blog/2012/06/08/sicp-note/';
+        var disqus_url = 'http://shellfly.github.com/blog/2012/06/08/sicp-note/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
