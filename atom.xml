@@ -4,7 +4,7 @@
   <title><![CDATA[伤风's blog]]></title>
   <link href="http://shellfly.github.com/atom.xml" rel="self"/>
   <link href="http://shellfly.github.com/"/>
-  <updated>2012-06-09T17:12:04+08:00</updated>
+  <updated>2012-06-09T17:19:19+08:00</updated>
   <id>http://shellfly.github.com/</id>
   <author>
     <name><![CDATA[shellfly]]></name>
@@ -338,35 +338,6 @@ exer1.18:</p>
 </span><span class='line'>              (else (iter (+ n a) a (- b 1)))))
 </span><span class='line'>     (iter 0 a b))</span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[git intro]]></title>
-    <link href="http://shellfly.github.com/blog/2012/06/08/git-introduction/"/>
-    <updated>2012-06-08T13:40:00+08:00</updated>
-    <id>http://shellfly.github.com/blog/2012/06/08/git-introduction</id>
-    <content type="html"><![CDATA[<p>http://marklodato.github.com/visual-git-guide/index-en.html</p>
-
-<p><a href="http://rogerdudler.github.com/git-guide/">git - the simple guide</a></p>
-
-<p><a href="http://git-scm.com/book/zh">Pro git</a> (翻译的有错误)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[hello world]]></title>
-    <link href="http://shellfly.github.com/blog/2012/06/07/hello-world/"/>
-    <updated>2012-06-07T13:52:00+08:00</updated>
-    <id>http://shellfly.github.com/blog/2012/06/07/hello-world</id>
-    <content type="html"><![CDATA[<p>int main()
-{</p>
-
-<pre><code>print ("hello world\n");
-return 0;
-</code></pre>
-
-<p>}</p>
 ]]></content>
   </entry>
   
