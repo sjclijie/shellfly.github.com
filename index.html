@@ -9,8 +9,8 @@
   <meta name="author" content="shellfly">
 
   
-  <meta name="description" content="闭包简单点说就是一个function加上一个environment，这个environment中不仅包
-含了function的局部变量也包含了外部变量，这样看来所有的javascript函数都是一
+  <meta name="description" content="闭包，简单点说就是一个function加上一个environment，这个environment中不仅包
+含了function的局部变量，也包含了外部变量，这样看来所有的javascript函数都是一
 个闭包。有趣的地方就在于当用到嵌套函数时，这些environment中外部变量有些特殊， &hellip;">
   
 
@@ -124,11 +124,11 @@
   </header>
 
 
-  <div class="entry-content"><p>闭包简单点说就是一个function加上一个environment，这个environment中不仅包
-含了function的局部变量也包含了外部变量，这样看来所有的javascript函数都是一
+  <div class="entry-content"><p>闭包，简单点说就是一个function加上一个environment，这个environment中不仅包
+含了function的局部变量，也包含了外部变量，这样看来所有的javascript函数都是一
 个闭包。有趣的地方就在于当用到嵌套函数时，这些environment中外部变量有些特殊，他们包含上层函数的局部变量。</p>
 
-<p>在练习一个书上的例子时发现了一个问题，这个问题之前在看《python学习手册》
+<p>在练习一个书上的例子时遇到了一个问题，这个问题之前在看《python学习手册》
 的时候也碰到过，当时没想明白，不过这次明白了。</p>
 
 <p><strong>一个闭包environment中的外部变量是引用而不是拷贝</strong>，例如当声明一个嵌
