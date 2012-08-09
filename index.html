@@ -9,10 +9,9 @@
   <meta name="author" content="shellfly">
 
   
-  <meta name="description" content="写这篇笔记并不是代表开始学SICP，而是要先把它放下一阵子。看了大概有一个
-月了,第二章还没看完（一个月才一章……），之所以看这么慢有2个原因，一方面这本书对我来
-说真的有点难度，从emacs开始知道函数式编程语言，只看过一些简单的介绍和几个
-elisp函数， &hellip;">
+  <meta name="description" content="闭包简单点说就是一个function加上一个environment，这个environment中不仅包
+含了function的局部变量也包含了外部变量，这样看来所有的javascript函数都是一
+个闭包。有趣的地方就在于当用到嵌套函数时，这些environment中外部变量有些特殊， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -100,6 +99,60 @@ elisp函数， &hellip;">
       
   <header class="page-header">
     
+      <h2 class="entry-title"><a href="/blog/2012/08/09/about-javascript-closure/">Javascript 闭包中的变量</a></h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-09T14:59:00+08:00" pubdate data-updated="true">Aug 9<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/08/09/about-javascript-closure/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>闭包简单点说就是一个function加上一个environment，这个environment中不仅包
+含了function的局部变量也包含了外部变量，这样看来所有的javascript函数都是一
+个闭包。有趣的地方就在于当用到嵌套函数时，这些environment中外部变量有些特殊，他们包含上层函数的局部变量。</p>
+
+<p>在练习一个书上的例子时发现了一个问题，这个问题之前在看《python学习手册》
+的时候也碰到过，当时没想明白，不过这次明白了。</p>
+
+<p><strong>一个闭包environment中的外部变量是引用而不是拷贝</strong>，例如当声明一个嵌
+套函数时，有个外部变量a=1,当这个嵌套函数实际被调用时，a可能已经变成了2;</p>
+
+<p>下面就是最近做练习写的函数,遍历网页中的超链接，如果class==popup，就给
+onclick事件放置一个处理函数。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/08/09/about-javascript-closure/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h2 class="entry-title"><a href="/blog/2012/06/08/sicp-note/">SICP 笔记-构造过程抽象</a></h2>
     
     
@@ -144,31 +197,6 @@ elisp函数，况且这本书不是教编程语言而是很多关于计算过程
 <p>在scheme里过程和变量都是由define定义，函数式编程语言里的过程和数据的差
 别很小，在很多地方过程也可以和普通数据一样使用，例如作为函数的参数或者
 包含在数据结构中。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(define (square x) (* x x))
-</span><span class='line'>(square 2)
-</span><span class='line'>4</span></code></pre></td></tr></table></div></figure>
-
-
-<p>稍微复杂点的复合过程</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(define (sum-square a b) 
-</span><span class='line'>    (+ (square a) (square b)))
-</span><span class='line'>(sum-square 3 4)
-</span><span class='line'>25</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li><strong>应用序</strong> 和 <strong>正则序</strong></li>
-</ul>
-
 
 </div>
   
@@ -245,20 +273,6 @@ elisp函数，况且这本书不是教编程语言而是很多关于计算过程
 <aside class="sidebar-nav span3">
   
     <section class="well">
-  <ul id="recent_posts" class="nav nav-list">
-    <li class="nav-header">Recent Posts</li>
-    
-      <li class="post">
-        <a href="/blog/2012/06/08/sicp-note/">SICP 笔记-构造过程抽象</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/06/06/new-start/">new start</a>
-      </li>
-    
-  </ul>
-</section>
-<section class="well">
 
 <ul class="nav nav-list"> 
 	<li class="nav-header">Neighbor</li>
