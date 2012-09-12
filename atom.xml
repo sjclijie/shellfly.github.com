@@ -4,7 +4,7 @@
   <title><![CDATA[伤风's blog]]></title>
   <link href="http://shellfly.github.com/atom.xml" rel="self"/>
   <link href="http://shellfly.github.com/"/>
-  <updated>2012-08-09T17:52:32+08:00</updated>
+  <updated>2012-09-13T00:29:58+08:00</updated>
   <id>http://shellfly.github.com/</id>
   <author>
     <name><![CDATA[shellfly]]></name>
@@ -12,6 +12,91 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[django自定义gravatar头像大小]]></title>
+    <link href="http://shellfly.github.com/blog/2012/09/12/django-gravatar-resize/"/>
+    <updated>2012-09-12T23:51:00+08:00</updated>
+    <id>http://shellfly.github.com/blog/2012/09/12/django-gravatar-resize</id>
+    <content type="html"><![CDATA[<p>Django可以很方便的集成gravatar，官方教程<a href="https://en.gravatar.com/site/implement/images/django/" target="_blank">在这</a>
+就是自定义一个<strong>template tag</strong>，在模板里加载使用就行了。</p>
+
+<p>给的代码是只有一个默认尺寸，把代码稍微改了以下，可以添加一个尺寸参数，如果没有提供第三个参数，默认是32.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'>
+</span><span class='line'><span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">template</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">urllib</span><span class="o">,</span> <span class="nn">hashlib</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">register</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">Library</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">GravatarUrlNode</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">32</span><span class="p">):</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">email</span><span class="p">)</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">email</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">email</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">except</span> <span class="n">template</span><span class="o">.</span><span class="n">VariableDoesNotExist</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">return</span> <span class="s">&#39;&#39;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">default</span> <span class="o">=</span> <span class="s">&quot;http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">gravatar_url</span> <span class="o">=</span> <span class="s">&quot;http://www.gravatar.com/avatar/&quot;</span> <span class="o">+</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">email</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;?&quot;</span>
+</span><span class='line'>        <span class="n">gravatar_url</span> <span class="o">+=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">({</span><span class="s">&#39;d&#39;</span><span class="p">:</span><span class="n">default</span><span class="p">,</span> <span class="s">&#39;s&#39;</span><span class="p">:</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">)})</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="n">gravatar_url</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@register.tag</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">gravatar_url</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">token</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">tag_name</span><span class="p">,</span> <span class="n">email</span> <span class="p">,</span><span class="n">size</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">split_contents</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">tag_name</span><span class="p">,</span><span class="n">email</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">split_contents</span><span class="p">()</span>
+</span><span class='line'>        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">raise</span> <span class="n">template</span><span class="o">.</span><span class="n">TemplateSyntaxError</span><span class="p">,</span> <span class="s">&quot;useage:</span><span class="si">%r</span><span class="s"> email [size]&quot;</span> <span class="o">%</span> <span class="n">token</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">GravatarUrlNode</span><span class="p">(</span><span class="n">email</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">GravatarUrlNode</span><span class="p">(</span><span class="n">email</span><span class="p">,</span><span class="n">size</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[javascript 闭包中的变量]]></title>

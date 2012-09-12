@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web | 伤风's blog]]></title>
   <link href="http://shellfly.github.com/blog/categories/web/atom.xml" rel="self"/>
   <link href="http://shellfly.github.com/"/>
-  <updated>2012-08-09T17:52:32+08:00</updated>
+  <updated>2012-09-13T00:29:58+08:00</updated>
   <id>http://shellfly.github.com/</id>
   <author>
     <name><![CDATA[shellfly]]></name>
@@ -12,6 +12,58 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[django自定义gravatar头像大小]]></title>
+    <link href="http://shellfly.github.com/blog/2012/09/12/django-gravatar-resize/"/>
+    <updated>2012-09-12T23:51:00+08:00</updated>
+    <id>http://shellfly.github.com/blog/2012/09/12/django-gravatar-resize</id>
+    <content type="html"><![CDATA[<p>Django可以很方便的集成gravatar，官方教程<a href="https://en.gravatar.com/site/implement/images/django/" target="_blank">在这</a>
+就是自定义一个<strong>template tag</strong>，在模板里加载使用就行了。</p>
+
+<p>给的代码是只有一个默认尺寸，把代码稍微改了以下，可以添加一个尺寸参数，如果没有提供第三个参数，默认是32.</p>
+
+<p>``` python</p>
+
+<pre><code>from django import template
+import urllib, hashlib
+
+register = template.Library()
+
+class GravatarUrlNode(template.Node):
+    def __init__(self, email, size=32):
+        self.email = template.Variable(email)
+        self.size = size
+    def render(self, context):
+        try:
+            email = self.email.resolve(context)
+        except template.VariableDoesNotExist:
+            return ''
+
+        default = "http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=%s" % self.size
+
+        gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(email.lower()).hexdigest() + "?"
+        gravatar_url += urllib.urlencode({'d':default, 's':str(self.size)})
+
+        return gravatar_url
+
+@register.tag
+def gravatar_url(parser, token):
+    try:
+        tag_name, email ,size = token.split_contents()
+    except ValueError:
+        try:
+            tag_name,email = token.split_contents()
+        except ValueError:
+            raise template.TemplateSyntaxError, "useage:%r email [size]" % token.contents.split()[0]
+        return GravatarUrlNode(email)
+
+    return GravatarUrlNode(email,size) 
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[javascript 闭包中的变量]]></title>
