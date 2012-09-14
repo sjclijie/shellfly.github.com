@@ -4,7 +4,7 @@
   <title><![CDATA[伤风's blog]]></title>
   <link href="http://shellfly.github.com/atom.xml" rel="self"/>
   <link href="http://shellfly.github.com/"/>
-  <updated>2012-09-13T00:29:58+08:00</updated>
+  <updated>2012-09-14T11:00:00+08:00</updated>
   <id>http://shellfly.github.com/</id>
   <author>
     <name><![CDATA[shellfly]]></name>
@@ -12,6 +12,117 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Django集成uploadify]]></title>
+    <link href="http://shellfly.github.com/blog/2012/09/14/django-uploadify-integrate/"/>
+    <updated>2012-09-14T09:10:00+08:00</updated>
+    <id>http://shellfly.github.com/blog/2012/09/14/django-uploadify-integrate</id>
+    <content type="html"><![CDATA[<p><strong>django 1.4 ;uploadify 3.1</strong></p>
+
+<p>uploadify实现多文件上传很简单，一个js，一个css和一个swf就行了。不过要想在Django里使用flash上传文件，还得动点手脚才行。</p>
+
+<p>问题就出<a href="http://www.uploadify.com/documentation/uploadify/using-sessions-with-uploadify/" target=_blank>在这</a>,使用flash无法传递cookies到服务端,
+服务端程序也就无法验证上传者的身份，如果在视图函数(views)上加了<strong>@login_required</strong>,请求就会一直被重定向，然后uploadify得到的就是一堆http 302或者IO error.</p>
+
+<p>上面的链接里已经指出了问题并给了解决方法，但那是针对php的，django要麻烦的多，当然有个不是办法的办法，就是不用@login_required，这样不需要验证就能上传文件了&#8230;</p>
+
+<p>既然没有cookies，那就需要手动添加cookies，Django的middleware正好适合干这事，uploaidfy的初始化选项里有个<strong>formData</strong>可以用来post数据，把要设置的cookies值，放在这里，
+然后自定义一个middleware在<strong>process_requrest()</strong>里构造自己需要的cookies。</p>
+
+<p>   一个小问题:django 1.4里的session cookies默认都有httponly选项，无法用js脚本获得这个值,还需要一个可以获得的sessionid</p>
+
+<!-- more -->
+
+
+<p>总结一下:</p>
+
+<ol>
+<li><p>在视图函数里手动建立一个没有httponly选项的sessionid，值和浏览器里的<strong>sessionid</strong>一样</p></li>
+<li><p>在uploadify初始化里传递必要的参数</p></li>
+<li><p>自定义一个middleware，在其中构造需要的cookies,自定义的middleware要放在settings.py里SessionMiddleware的前面</p></li>
+</ol>
+
+
+<figure class='code'><figcaption><span>views.py</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">upload_sessionid</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">COOKIES</span><span class="p">[</span><span class="s">&#39;sessionid&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="o">...</span>
+</span><span class='line'><span class="n">response</span><span class="o">.</span><span class="n">set_cookie</span><span class="p">(</span><span class="s">&#39;upload_sessionid&#39;</span><span class="p">,</span><span class="n">upload_sessionid</span><span class="p">,</span><span class="n">httponly</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</span><span class='line'><span class="k">return</span> <span class="n">response</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>main.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>   <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#file_upload&#39;</span><span class="p">).</span><span class="nx">uploadify</span><span class="p">({</span>
+</span><span class='line'>        <span class="s1">&#39;swf&#39;</span>      <span class="o">:</span> <span class="s1">&#39;/static/uploadify/uploadify.swf&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s1">&#39;uploader&#39;</span> <span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="c1">// 设置为空，则为当前url</span>
+</span><span class='line'>        <span class="c1">// Put your options here</span>
+</span><span class='line'>        <span class="s1">&#39;fileTypeExts&#39;</span><span class="o">:</span><span class="s1">&#39;*.jpg;*.bmp;*.png&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s1">&#39;formData&#39;</span><span class="o">:</span><span class="p">{</span><span class="s1">&#39;upload_sessionid&#39;</span><span class="o">:</span><span class="nx">$</span><span class="p">.</span><span class="nx">cookie</span><span class="p">(</span><span class="s1">&#39;upload_sessionid&#39;</span><span class="p">),</span><span class="s1">&#39;selected_album&#39;</span><span class="o">:</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.selected_data&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">()},</span>
+</span><span class='line'>        <span class="s1">&#39;multi&#39;</span><span class="o">:</span><span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>        <span class="s1">&#39;auto&#39;</span><span class="o">:</span><span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>        <span class="s1">&#39;buttonText&#39;</span><span class="o">:</span><span class="s1">&#39;添加照片&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s1">&#39;height&#39;</span><span class="o">:</span><span class="mi">21</span><span class="p">,</span>
+</span><span class='line'>        <span class="s1">&#39;width&#39;</span><span class="o">:</span><span class="mi">81</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>middleware.py</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'> <span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+</span><span class='line'>
+</span><span class='line'> <span class="k">class</span> <span class="nc">UploadifyMiddleware</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">process_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">request</span><span class="p">):</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span> <span class="ow">and</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;upload_sessionid&#39;</span><span class="p">):</span>
+</span><span class='line'>            <span class="n">request</span><span class="o">.</span><span class="n">COOKIES</span><span class="p">[</span><span class="n">settings</span><span class="o">.</span><span class="n">SESSION_COOKIE_NAME</span><span class="p">]</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s">&#39;upload_sessionid&#39;</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>settings.py</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">MIDDLEWARE_CLASSES</span> <span class="o">=</span> <span class="p">(</span>
+</span><span class='line'>    <span class="s">&#39;django.middleware.common.CommonMiddleware&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&#39;albums.middleware.UploadifyMiddleware&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.sessions.middleware.SessionMiddleware&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="o">...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样应该就没问题了，不过视图函数还是要加上<strong>@csrf_exempt</strong>不然会出现403错误，我试着用同样的方法设置了csrftoken的cookies，不过貌似不起什么作用，先这样用着了。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[django自定义gravatar头像大小]]></title>

@@ -9,21 +9,8 @@
   <meta name="author" content="shellfly">
 
   
-  <meta name="description" content="Django可以很方便的集成gravatar，官方教程在这
-就是自定义一个template tag，在模板里加载使用就行了。 给的代码是只有一个默认尺寸，把代码稍微改了以下，可以添加一个尺寸参数，如果没有提供第三个参数，默认是32. 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14 &hellip;">
+  <meta name="description" content="django 1.4 ;uploadify 3.1 uploadify实现多文件上传很简单，一个js，一个css和一个swf就行了。不过要想在Django里使用flash上传文件，还得动点手脚才行。 问题就出在这,使用flash无法传递cookies到服务端,
+服务端程序也就无法验证上传者的身份， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -105,6 +92,61 @@
     <div class="row-fluid">
       <div class="span9">
   
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h2 class="entry-title"><a href="/blog/2012/09/14/django-uploadify-integrate/">Django集成uploadify</a></h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-14T09:10:00+08:00" pubdate data-updated="true">Sep 14<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/09/14/django-uploadify-integrate/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>django 1.4 ;uploadify 3.1</strong></p>
+
+<p>uploadify实现多文件上传很简单，一个js，一个css和一个swf就行了。不过要想在Django里使用flash上传文件，还得动点手脚才行。</p>
+
+<p>问题就出<a href="http://www.uploadify.com/documentation/uploadify/using-sessions-with-uploadify/" target=_blank>在这</a>,使用flash无法传递cookies到服务端,
+服务端程序也就无法验证上传者的身份，如果在视图函数(views)上加了<strong>@login_required</strong>,请求就会一直被重定向，然后uploadify得到的就是一堆http 302或者IO error.</p>
+
+<p>上面的链接里已经指出了问题并给了解决方法，但那是针对php的，django要麻烦的多，当然有个不是办法的办法，就是不用@login_required，这样不需要验证就能上传文件了&#8230;</p>
+
+<p>既然没有cookies，那就需要手动添加cookies，Django的middleware正好适合干这事，uploaidfy的初始化选项里有个<strong>formData</strong>可以用来post数据，把要设置的cookies值，放在这里，
+然后自定义一个middleware在<strong>process_requrest()</strong>里构造自己需要的cookies。</p>
+
+<p>   一个小问题:django 1.4里的session cookies默认都有httponly选项，无法用js脚本获得这个值,还需要一个可以获得的sessionid</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/09/14/django-uploadify-integrate/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -335,62 +377,9 @@ elisp函数，况且这本书不是教编程语言而是很多关于计算过程
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h2 class="entry-title"><a href="/blog/2012/06/06/new-start/">New Start</a></h2>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-06-06T23:26:00+08:00" pubdate data-updated="true">Jun 6<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/06/06/new-start/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>就像现在所显示的，原来使用免费空间搭建的wordpress博客没有了，告诉我需要付费才能弄回来原来的空间。其实000webhost用着挺不错的，半年多了也没出
-什么问题，虽然数据库有备份，但想想还是算了，从新开始也不错。之前因为电
-脑出了点问题，修了很多天才弄好而且电脑被全盘格式化了，这次又来这个，貌似人品还没攒够？</p>
-
-<p>shellfly.org这个域名要到10月份才到期，之后也不打算在续费了，所以以后如果想再来的话（虽然现在没什么东西，但
-还是希望有人来看。。）就直接用shellfly.github.com吧。github真是个好东
-西。</p>
-
-<p>之前虽然一直想看看git的书，但一直没找到机会，反而这次搭建博客把git弄懂了一
-点，理论上虽然还差一点，但简单的操作都ok了。ruby之前没接触过，所以今天在图书馆也借了本ruby的书，markdown也没用
-过，这第一篇文章估计也不怎么好看，没什么格式，博客落下很久了，先写点试
-试，好久没写东西了。前几天考完了软件设计师，感觉挺简单的（希望不是我感觉错误）等着拿证书，好像要等半年才
-能出来。虽然这种考试看上去没什么用，不过乘此机会好好看了下算法和数据结构，还看了点编译原理，收获还是有的。</p>
-
-<p>6月7号，今天正好是高考的日子，三年的时间就这么过去了，好像越长大，时间
-过的越快？如果大二的时候没有下定决心不在玩游戏，不知道现在的自己是一副
-什么样子。发现自己写文章果然没什么天赋啊，跳变太多了 看来大脑里都是数字信
-号啊 什么时候能弄个D/A转换器 转换成模拟信号就好了…… 不管怎样，找到新起点的感觉也是不错的</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
+    
+    <li class="previous"><a href="/blog/page/2/">&larr; Older</a></li>
     
     <li><a href="/blog/archives">Blog Archives</a></li>
     
