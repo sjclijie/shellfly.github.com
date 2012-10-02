@@ -28,10 +28,10 @@ Django可以很方便的集成gravatar，官方教程<a href="https://en.gravata
             except template.VariableDoesNotExist:
                 return ''
 
-            default = "http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&s=%s" % self.size
+            #default = "http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&s=%s" % self.size
 
             gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(email.lower()).hexdigest() + "?"
-            gravatar_url += urllib.urlencode({'d':default, 's':str(self.size)})
+            gravatar_url += urllib.urlencode({'d':'mm', 's':str(self.size)})
 
             return gravatar_url
 
