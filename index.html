@@ -9,8 +9,10 @@
   <meta name="author" content="shellfly">
 
   
-  <meta name="description" content="django 1.4 ;uploadify 3.1 uploadify实现多文件上传很简单，一个js，一个css和一个swf就行了。不过要想在Django里使用flash上传文件，还得动点手脚才行。 问题就出在这,使用flash无法传递cookies到服务端,
-服务端程序也就无法验证上传者的身份， &hellip;">
+  <meta name="description" content="起止 8月21号建的repo，当时就写了几行用户验证的代码，到今天差不多40天的样
+子，算是有了个样子，相册、活动、广播，基本的功能都实现了，也加上了在线
+拍照、编辑照片和幻灯片效果。暂时不准备在改了，这段时间一直在看django，其
+他东西都落下了。一本算法的书，暑假看了一半， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -92,6 +94,68 @@
     <div class="row-fluid">
       <div class="span9">
   
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h2 class="entry-title"><a href="/blog/2012/10/02/7alpha/">小7试上线</a></h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-02T21:30:00+08:00" pubdate data-updated="true">Oct 2<span>nd</span>, 2012</time>
+        
+         | <a href="/blog/2012/10/02/7alpha/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h4>起止</h4>
+
+<p>8月21号建的repo，当时就写了几行用户验证的代码，到今天差不多40天的样
+子，算是有了个样子，相册、活动、广播，基本的功能都实现了，也加上了在线
+拍照、编辑照片和幻灯片效果。暂时不准备在改了，这段时间一直在看django，其
+他东西都落下了。一本算法的书，暑假看了一半，结果因为找工作和写这个网站，
+到现在还没看完，准备用剩下的时间把他补完。</p>
+
+<h4>致谢</h4>
+
+<p>第一次写网站，很多地方不懂，感谢@fleuria君提供的帮助。感谢@瑾和@冬提供
+的首页的照片。还有v2ex上几个朋友的意见。</p>
+
+<h4><a href="http://pk7lover.com" target="_blank">pk7lover.com</a></h4>
+
+<h5>pk7lover == picture lover</h5>
+
+<p>pk7lover是一个在线分享照片的网站,如果你用过flickr,那么就一定不会对
+pk7lover感到陌生. 在这里你可以创建自己的相册，上传喜爱的照片，并把照片
+和朋友、家人一起分享.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/10/02/7alpha/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -234,10 +298,10 @@
 </span><span class='line'>        <span class="k">except</span> <span class="n">template</span><span class="o">.</span><span class="n">VariableDoesNotExist</span><span class="p">:</span>
 </span><span class='line'>            <span class="k">return</span> <span class="s">&#39;&#39;</span>
 </span><span class='line'>
-</span><span class='line'>        <span class="n">default</span> <span class="o">=</span> <span class="s">&quot;http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span>
+</span><span class='line'>        <span class="c">#default = &quot;http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=%s&quot; % self.size</span>
 </span><span class='line'>
 </span><span class='line'>        <span class="n">gravatar_url</span> <span class="o">=</span> <span class="s">&quot;http://www.gravatar.com/avatar/&quot;</span> <span class="o">+</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">email</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;?&quot;</span>
-</span><span class='line'>        <span class="n">gravatar_url</span> <span class="o">+=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">({</span><span class="s">&#39;d&#39;</span><span class="p">:</span><span class="n">default</span><span class="p">,</span> <span class="s">&#39;s&#39;</span><span class="p">:</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">)})</span>
+</span><span class='line'>        <span class="n">gravatar_url</span> <span class="o">+=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">({</span><span class="s">&#39;d&#39;</span><span class="p">:</span><span class="s">&#39;mm&#39;</span><span class="p">,</span> <span class="s">&#39;s&#39;</span><span class="p">:</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">)})</span>
 </span><span class='line'>
 </span><span class='line'>        <span class="k">return</span> <span class="n">gravatar_url</span>
 </span><span class='line'>
@@ -310,67 +374,6 @@ onclick事件放置一个处理函数。</p>
   
     <footer>
       <a rel="full-article" href="/blog/2012/08/09/about-javascript-closure/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h2 class="entry-title"><a href="/blog/2012/06/08/sicp-note/">SICP 笔记-构造过程抽象</a></h2>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-06-08T20:29:00+08:00" pubdate data-updated="true">Jun 8<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/06/08/sicp-note/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>写这篇笔记并不是代表开始学SICP，而是要先把它放下一阵子。看了大概有一个
-月了,第二章还没看完（一个月才一章……），之所以看这么慢有2个原因，一方面这本书对我来
-说真的有点难度，从emacs开始知道函数式编程语言，只看过一些简单的介绍和几个
-elisp函数，况且这本书不是教编程语言而是很多关于计算过程的理论知识，看到第二章时进度就已经快速递减到0了。
-另一个原因是因为暑假快到了，怕时间不够用，就在同一时间看了好几本书，本
-以为自己消化得了，结果变成了&#8221;欲速则不达&#8221;。所以得先放下几本了。</p>
-
-<p>下面是笔记的正文</p>
-
-<h3>过程的基本知识</h3>
-
-<ul>
-<li>过程</li>
-</ul>
-
-
-<p>在scheme里过程和变量都是由define定义，函数式编程语言里的过程和数据的差
-别很小，在很多地方过程也可以和普通数据一样使用，例如作为函数的参数或者
-包含在数据结构中。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/06/08/sicp-note/">Read on &rarr;</a>
     </footer>
   
 
