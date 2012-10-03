@@ -4,7 +4,7 @@
   <title><![CDATA[伤风's blog]]></title>
   <link href="http://shellfly.github.com/atom.xml" rel="self"/>
   <link href="http://shellfly.github.com/"/>
-  <updated>2012-10-02T22:33:40+08:00</updated>
+  <updated>2012-10-03T08:28:25+08:00</updated>
   <id>http://shellfly.github.com/</id>
   <author>
     <name><![CDATA[shellfly]]></name>
@@ -18,7 +18,9 @@
     <link href="http://shellfly.github.com/blog/2012/10/02/7alpha/"/>
     <updated>2012-10-02T21:30:00+08:00</updated>
     <id>http://shellfly.github.com/blog/2012/10/02/7alpha</id>
-    <content type="html"><![CDATA[<h4>起止</h4>
+    <content type="html"><![CDATA[<p>更新:代码部署到github了:<a href="https://github.com/shellfly/pk7lover">https://github.com/shellfly/pk7lover</a></p>
+
+<h4>起止</h4>
 
 <p>8月21号建的repo，当时就写了几行用户验证的代码，到今天差不多40天的样
 子，算是有了个样子，相册、活动、广播，基本的功能都实现了，也加上了在线
