@@ -1,0 +1,9 @@
+---
+layout: post
+title: "test"
+date: 2012-06-09 17:31
+comments: true
+categories: 
+published: false
+---
+just 4 a test
