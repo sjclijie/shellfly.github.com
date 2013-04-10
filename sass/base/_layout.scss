@@ -67,7 +67,6 @@ ul#menu li {
   clear: both;
   margin: 0;
   padding: 0;
-  margin-bottom: 15px;
 }
 
 ul#menu a {
@@ -98,12 +97,14 @@ header#sidebar h1#title {
 }
 
 #octopress_linkback {
-  position: fixed;
+/* position: fixed;
   left: 30px;
-  bottom: 30px;
+  bottom: 30px; 
+*/
   font-size: 15px;
   letter-spacing: 0;
-  text-transform: uppercase;
+//  text-transform: uppercase;
+  text-align: center;
   font-family: "Rokkitt",serif;
   font-weight: 900;
   line-height: 15px;
@@ -191,10 +192,10 @@ header#sidebar h2#subtitle {
     position: absolute;
   }
 
-  #octopress_linkback {
-    top: 700px;
-    position: absolute;
-  }
+//  #octopress_linkback {
+//    top: 700px;
+//    position: absolute;
+//  }
 }
 
 // Medium-width screen
@@ -319,9 +320,9 @@ h2.entry-title a.anchor {
 
 // Navigation
 nav#pagination {
-  padding: 40px;
+  padding: 20px;
   border-top: 1px solid #E2E2E2;
-  padding-bottom: 100px;
+  //padding-bottom: 100px;
 }
 
 nav#pagination span.next a, nav#pagination span.prev a {
