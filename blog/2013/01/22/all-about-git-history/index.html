@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>翼をください</title>
+  <title>git history - 翼をください</title>
   <meta name="author" content="shellfly">
 
   
-  <meta name="description" content="石头的病 Mar 27th, 2014 | Comments 如果石头健康 如果石头不再生病 他哪会开花 如果我也健康 如果我也不在生病 也就没有命运 --海子 &lt;&lt;石头的病 或八七年&gt;&gt; Raspberry Pi Wireless Mar 25th, 2014 | &hellip;">
+  <meta name="description" content="Git History Jan 22nd, 2013 | Comments 修改上一次commit git commit --amend,如果上次提交后没有做任何修改，运行这个命令可以修改上次提交的message，如果你发现少提交了一个文件，或者有其他小的改动
+觉得应该放在上一个commit里面 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://shellfly.github.com/">
+  <link rel="canonical" href="http://shellfly.github.com/blog/2013/01/22/all-about-git-history/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -72,139 +73,17 @@
 
   </header>
   <section id="main">
-      
-  
-  
     <article class="post">
-      <div class="sharing-box">
+  <div class="sharing-box">
   
   
   
 </div>
 
-      
+  
   <header>
     
-      <h2 class="entry-title">
-        
-        <a href="/blog/2014/03/27/stone-s-illeness/">石头的病</a>
-        
-      </h2>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-27T23:18:00+08:00" pubdate data-updated="true">Mar 27<span>th</span>, 2014</time>
-        
-         | <a href="/blog/2014/03/27/stone-s-illeness/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <pre><code>    如果石头健康
-    如果石头不再生病
-    他哪会开花
-    如果我也健康
-    如果我也不在生病    
-    也就没有命运
-
-            --海子 &lt;&lt;石头的病 或八七年&gt;&gt;
-</code></pre>
-
-  
-  
-
-
-    </article>
-  
-  
-    <article class="post">
-      <div class="sharing-box">
-  
-  
-  
-</div>
-
-      
-  <header>
-    
-      <h2 class="entry-title">
-        
-        <a href="/blog/2014/03/25/raspberry-pi-wireless/">Raspberry Pi Wireless</a>
-        
-      </h2>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-25T22:36:00+08:00" pubdate data-updated="true">Mar 25<span>th</span>, 2014</time>
-        
-         | <a href="/blog/2014/03/25/raspberry-pi-wireless/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <p>前几天入手了Raspberry Pi，由于住的地方是无线路由，路由器又不在我的房间不方便接跟网线上去，想在家里玩的话就得把无线链接先配置好。</p>
-
-<p>Raspberry Pi mode B国产红色的那款，操作系统raspbian wheezy 3.10，无线网卡用的edup的一款。</p>
-
-<p>第一次进去当然还是要用网线才行，sshd是默认启动的，可以ssh进去，或者装个vnc server实现远程桌面，配置好了后就可以用自己的笔记本当显示器来用了。</p>
-
-<p>使用raspbian自带的<u>wap_suppliant</u><sup><a href="#1">1</a></sup> 配置无线网络</p>
-
-
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/03/25/raspberry-pi-wireless/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article class="post">
-      <div class="sharing-box">
-  
-  
-  
-</div>
-
-      
-  <header>
-    
-      <h2 class="entry-title">
-        
-        <a href="/blog/2013/01/22/all-about-git-history/">Git History</a>
-        
-      </h2>
+      <h2 class="entry-title">Git History</h2>
     
     
       <p class="meta">
@@ -222,14 +101,14 @@
 
 <time datetime="2013-01-22T00:08:00+08:00" pubdate data-updated="true">Jan 22<span>nd</span>, 2013</time>
         
-         | <a href="/blog/2013/01/22/all-about-git-history/#disqus_thread">Comments</a>
+         | <a href="#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <h3>修改上一次commit</h3>
+<h3>修改上一次commit</h3>
 
 <p><code>git commit --amend</code>,如果上次提交后没有做任何修改，运行这个命令可以修改上次提交的message，如果你发现少提交了一个文件，或者有其他小的改动
 觉得应该放在上一个commit里面，就可以在commit最后加上<code>--amend</code> 参数，来更新上次commit。</p>
@@ -242,17 +121,34 @@
 
 <h3>撤销commit git revert vs git reset</h3>
 
-
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/01/22/all-about-git-history/">Read on &rarr;</a>
-    </footer>
-  
+<!-- more -->
 
 
-    </article>
-  
+<p><code>git revert &lt;commit&gt;</code> 会创建一个新的commit,这个commit会撤销命令里给出的commit的所有操作，并且不会修改原有commit历史记录。要撤销最近一次commit最好的办法就是使用<code>git revert</code>。当然也可
+以指定很多commit 这些commit会被一一撤销，如果有中间出现冲突，需要像<code>git merge</code>那样手动解决冲突。</p>
+
+<p><code>git reset (--soft | --mixed | --hard | --merge | --keep) [-q] [&lt;commit&gt;]</code> 恢复到指定的commit，会修改commit的历史记录,可以回溯到任一commit,就像时光倒流一样，这也是版本控制的好处所在。</p>
+
+<ul>
+<li><p><code>--soft</code>
+只是把当前HEAD指向commit，并不改变index和work tree里的文件，所有和commit不同的文件都会变成“changes to be commited”</p></li>
+<li><p><code>--mixed</code>
+默认选项，除了把HEAD指向commit外，还会更新index文件，但不影响work tree里的文件。</p></li>
+<li><p><code>--hard</code>
+把HEAD指向commit，并且更新index和work tree里的文件，如果想彻底删除一个commit，可以选择这个命令</p></li>
+</ul>
+
+
+
+
+</article>
+
+  <section class="comments">
+    <h2>Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
 
     <nav role="navigation" id="pagination">
 
@@ -278,7 +174,10 @@
       var disqus_shortname = 'shellfly';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://shellfly.github.com/blog/2013/01/22/all-about-git-history/';
+        var disqus_url = 'http://shellfly.github.com/blog/2013/01/22/all-about-git-history/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

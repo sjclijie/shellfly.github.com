@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: note | 翼をください]]></title>
+  <link href="http://shellfly.github.com/blog/categories/note/atom.xml" rel="self"/>
+  <link href="http://shellfly.github.com/"/>
+  <updated>2014-03-28T00:03:32+08:00</updated>
+  <id>http://shellfly.github.com/</id>
+  <author>
+    <name><![CDATA[shellfly]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[石头的病]]></title>
+    <link href="http://shellfly.github.com/blog/2014/03/27/stone-s-illeness/"/>
+    <updated>2014-03-27T23:18:00+08:00</updated>
+    <id>http://shellfly.github.com/blog/2014/03/27/stone-s-illeness</id>
+    <content type="html"><![CDATA[<pre><code>    如果石头健康
+    如果石头不再生病
+    他哪会开花
+    如果我也健康
+    如果我也不在生病    
+    也就没有命运
+
+            --海子 &lt;&lt;石头的病 或八七年&gt;&gt;
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>
