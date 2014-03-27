@@ -3,7 +3,8 @@ layout: post
 title: "git history"
 date: 2013-01-22 00:08
 comments: true
-categories: note
+categories: memo
+tags: git
 ---
 
 ### 修改上一次commit
