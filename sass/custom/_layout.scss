@@ -1,10 +1,66 @@
 body{
-    background-image:url("/images/cry_dispair.png");
+    background-image:url("/images/cry.jpg");
     background-attachment:fixed;
     background-position: 0% 100%;
     background-repeat:no-repeat;
 }
 
+p.meta{
+    margin-top:-15px;
+    color:#aaa;
+    a:link {
+        color:#777;
+    }
+}
 pre{
     max-width:700px;
 }
+
+#octopress_linkback {
+  position:static;
+  font-size: 12px;
+  letter-spacing: 0;
+  text-align: center;
+  font-family: "Rokkitt",serif;
+  font-weight: 900;
+  line-height: 15px;
+  padding: 10px;
+  height: 30px;
+  z-index: 9999;
+  border-radius: 5px;
+  background-color:none;
+}
+
+
+section.comments {
+  max-width:700px;
+}
+
+article.post h2, article.post p {
+  max-width: 700px;
+}
+
+article.post figure {
+  max-width: 700px;
+}
+
+// Navigation
+nav#pagination {
+  padding: 20px;
+  border-top: 1px solid #E2E2E2;
+  //padding-bottom: 100px;
+}
+
+nav#pagination span.next a, nav#pagination span.prev a {
+  padding: 2px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 30px;
+  -moz-border-radius: 30px;
+  -webkit-border-radius: 30px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 2px solid;
+}
+
+
