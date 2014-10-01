@@ -1,31 +1,128 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
-    <url>
-        <loc>http://shellfly.github.com/blog/2013/01/22/all-about-git-history/</loc>
-        <lastmod>2014-03-28T00:22:35+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://shellfly.github.com/blog/2014/03/25/raspberry-pi-wireless/</loc>
-        <lastmod>2014-03-28T00:22:35+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://shellfly.github.com/blog/2014/03/27/stone-s-illeness/</loc>
-        <lastmod>2014-03-28T00:22:35+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://shellfly.github.com/about/</loc>
-        <lastmod>2014-03-28T00:22:35+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://shellfly.github.com/blog/archives/</loc>
-        <lastmod>2014-03-28T00:22:35+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://shellfly.github.com/</loc>
-        <lastmod>2014-03-28T00:22:35+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://shellfly.github.com/pagedown-with-emotions/</loc>
-        <lastmod>2014-03-28T00:22:36+08:00</lastmod>
-    </url>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  
+  <url>
+    <loc>http://shellfly.github.com/blog/2014/03/27/stone-s-illeness/</loc>
+    
+    <lastmod>2014-03-27T23:18:00+08:00</lastmod>
+    
+    <priority>0.8</priority>
+  </url>
+  
+  
+  <url>
+    <loc>http://shellfly.github.com/blog/archives/</loc>
+    <lastmod>2014-10-01T16:30:43+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://shellfly.github.com/</loc>
+    <lastmod>2014-10-01T16:30:43+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <url>
+    <loc>http://shellfly.github.com/about/</loc>
+    <lastmod>2014-10-01T16:30:43+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://shellfly.github.com/pagedown-with-emotions/</loc>
+    <lastmod>2014-10-01T16:30:43+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  
+  
+  <url>
+    <loc>http://shellfly.github.com/pagedown-with-emotions/demo/browser/bootstrap/docs/base-css.html</loc>
+    <lastmod>2014-03-28T00:22:36Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://shellfly.github.com/pagedown-with-emotions/demo/browser/bootstrap/docs/components.html</loc>
+    <lastmod>2014-03-28T00:22:36Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://shellfly.github.com/pagedown-with-emotions/demo/browser/bootstrap/docs/download.html</loc>
+    <lastmod>2014-03-28T00:22:36Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://shellfly.github.com/pagedown-with-emotions/demo/browser/bootstrap/docs/examples/fluid.html</loc>
+    <lastmod>2014-03-28T00:22:36Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://shellfly.github.com/pagedown-with-emotions/demo/browser/bootstrap/docs/examples/hero.html</loc>
+    <lastmod>2014-03-28T00:22:36Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://shellfly.github.com/pagedown-with-emotions/demo/browser/bootstrap/docs/examples/starter-template.html</loc>
+    <lastmod>2014-03-28T00:22:36Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://shellfly.github.com/pagedown-with-emotions/demo/browser/bootstrap/docs/examples.html</loc>
+    <lastmod>2014-03-28T00:22:36Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://shellfly.github.com/pagedown-with-emotions/demo/browser/bootstrap/docs/index.html</loc>
+    <lastmod>2014-03-28T00:22:36Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://shellfly.github.com/pagedown-with-emotions/demo/browser/bootstrap/docs/javascript.html</loc>
+    <lastmod>2014-03-28T00:22:36Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://shellfly.github.com/pagedown-with-emotions/demo/browser/bootstrap/docs/less.html</loc>
+    <lastmod>2014-03-28T00:22:36Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://shellfly.github.com/pagedown-with-emotions/demo/browser/bootstrap/docs/scaffolding.html</loc>
+    <lastmod>2014-03-28T00:22:36Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://shellfly.github.com/pagedown-with-emotions/demo/browser/bootstrap/docs/upgrading.html</loc>
+    <lastmod>2014-03-28T00:22:36Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://shellfly.github.com/pagedown-with-emotions/demo/browser/bootstrap/js/tests/index.html</loc>
+    <lastmod>2014-03-28T00:22:36Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://shellfly.github.com/pagedown-with-emotions/demo/browser/demo.html</loc>
+    <lastmod>2014-03-28T00:22:36Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
 </urlset>
