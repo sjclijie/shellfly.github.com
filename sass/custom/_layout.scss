@@ -5,6 +5,19 @@ body{
     background-repeat:no-repeat;
 }
 
+hr{
+    margin: 0 45px 0 45px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+}
+p{
+    line-height:27px;
+    letter-spacing:1px;
+}
+
+p.indent{
+    white-space: pre;
+}
 p.meta{
     margin-top:-15px;
     color:#aaa;
@@ -34,14 +47,6 @@ pre{
 
 section.comments {
   max-width:700px;
-}
-
-article.post h2, article.post p {
-  max-width: 700px;
-}
-
-article.post figure {
-  max-width: 700px;
 }
 
 // Navigation

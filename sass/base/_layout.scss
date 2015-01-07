@@ -115,9 +115,11 @@ header#sidebar h1#title {
 //
 #main {
   border-left: 1px solid #e3e3e3;
-  margin-left: 27%;
+//  margin-left: 29%;
+  margin-left: 387px;
   min-height: 900px;
   min-width: 658px;
+  max-width: 700px;
   position: relative;
   z-index: 9999;
 }
@@ -302,13 +304,13 @@ section.comments {
   overflow-x: hidden;
 }
 
-article.post h2, article.post p {
-  max-width: 500px;
-}
-
-article.post figure {
-  max-width: 500px;
-}
+//article.post h2, article.post p {
+//  max-width: $article-post-width;
+//}
+//
+//article.post figure {
+//  max-width: $article-post-width;
+//}
 
 // Anchor
 h2.entry-title a.anchor {
