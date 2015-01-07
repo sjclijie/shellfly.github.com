@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>(译) The Y combinator (Slight Return) - 翼をください</title>
+  <meta name="author" content="shellfly">
+
+  
+  <meta name="description" content="(译) The Y combinator (Slight Return) Jan 7th, 2015 8:52 pm 翻译 | Comments or: How to Succeed at Recursion Without Really Recursing Tiger got to hunt &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://shellfly.github.com/blog/2015/01/07/yi-the-y-combinator-slight-return/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="翼をください" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body >
+  <header role="banner" id="sidebar">
+    <ul id="menu">
+
+  <li class="title">
+    <h1 id="title"><a href="/">翼をください</a></h1>
+  </li>
+
+
+
+
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:shellfly.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+
+
+  <li class="link">
+    <a href="/blog/archives/">archives</a>
+  </li>
+  <li class="link">
+    <a href="/about/">about</a>
+  </li>
+
+
+</ul>
+
+  </header>
+  <section id="main">
+    <article class="post">
+  <div class="sharing-box">
+  
+  
+  
+</div>
+
+  
+  <header>
+    
+      <h2 class="entry-title">(译) The Y combinator (Slight Return)</h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-07T20:52:02+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:52 pm</span></time>
+		
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/fan-yi/'>翻译</a>
+  
+</span>
+
+
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<p>or:</p>
+
+<p><u>How to Succeed at Recursion Without Really Recursing</u></p>
+
+<pre><code>Tiger got to hunt,
+Bird got to fly;
+Lisper got to sit and wonder, (Y (Y Y))?
+
+Tiger got to sleep,
+Bird got to land;
+Lisper got to tell himself he understand.
+
+  — Kurt Vonnegut, modified by Darius Bacon
+</code></pre>
+
+<!--more-->
+
+
+<h2>介绍</h2>
+
+<p>自从最近写了一篇关于Y combinator的文章后，收到了很多有用的评论，所以我觉得很适合把它在扩展一下，写一篇更完整的出来。这篇文章会说的更深入，但是我希望也能更好理解。你不需要先读完前一篇文章在读这篇（实际上你最好没读过），我需要的唯一的背景知识就是一点点Scheme编程语言包括递归和first-class functions，文章中我也会提到。欢迎（再一次）评论。</p>
+
+<h2>为什么学习 Y combinator</h2>
+
+<p>在详细的说明Y combinator到底是什么之前，我想先指出，为什么你，作为一个程序员，应该花时间来学习它。说实话，并没有什么实际的理由让你一定要学习Y combinator。尽管它的确有一点实际的作用，而且大部分是对于计算机语言学家们。尽管如此，我还是觉得你值得花时间来了解一点Y combinator的东西，因为：</p>
+
+<ol>
+<li><p>它是编程中最美的想法之一，如果你稍微有一点对于编程的审美，你一定会被Y combinator打动。</p></li>
+<li><p>它以一种非常质朴的方式展现了函数式编程的简单想法是多么惊人和强大。</p></li>
+</ol>
+
+
+<p>1959年，英国科学家C. P. Snow做了一场有名的讲座叫 <strong><a href="http://en.wikipedia.org/wiki/The_Two_Cultures">The Two Cultures</a></strong> ,在讲座中他哀叹当时很多头脑聪明教育良好的人却对科学一无所知。他用热力学第二定律的知识作为可以认知科学和无法认知科学两种人的分界线。我想我们同样可以用Y combinator的知识作为了解函数式编程（也就是说，掌握充分函数式编程的知识）和不了解函数式编程的程序员之间的分界线。有一些其他工具也可以代替Y combinator很好的工作（尤其是monads），但是Y combinator会完成的更漂亮。所以如果你渴望知道真正的Lambda本质，那就继续读下去。</p>
+
+<p>顺便提一下，<a href="http://www.paulgraham.com/">Paul Graham</a>(Lisp黑客，Lisp书籍作家，随笔作家，现在也是一名企业家)显然把Y combinator看的更重，他用<a href="http://www.ycombinator.com/">Y combinator</a>来命名他的创业孵化器公司。Paul通过这些知识变的富有，也许有其他人也会，也许甚至就是你。</p>
+
+<hr />
+
+
+<h2>一个谜题</h2>
+
+<h2>阶乘</h2>
+
+<p>我们通过定义几个计算阶乘的函数来开始我们的Y combinator之旅，一个非负整数的阶乘就是从1一直乘到它自己，所以我们有：</p>
+
+<p class="indent">    factorial 1 = 1
+    factorial 2 = 2 * 1 = 2
+    factorial 3 = 3 * 2 * 1 = 6
+    factorial 4 = 4 * 3 * 2 *1 = 24
+</p>
+
+
+<p>等等。（我在这里写函数时没有用括号，所以 factorial 3 和通常写的factorial(3)是一样的，真的，相信我。）阶乘随着n的增长增长的很快，20的阶乘是2432902008176640000。0的阶乘被定义成1，事实证明这对于实际使用阶乘的时候是个合适的定义（比如解决组合数学的问题）。</p>
+
+
+
+</article>
+
+  <section class="comments">
+    <h2>Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+
+    <nav role="navigation" id="pagination">
+
+</nav>
+  </section>
+  <!-- Octopress Love -->
+<footer id="octopress_linkback">
+  <a href="http://octopress.org/">
+    <span class="unicode_square">
+      <span class="unicode_circle">
+        &nbsp;
+      </span>
+    </span>
+    <span class="octopress">Powered by Octopress</span>
+ </a>
+ <span class="small">(<a href="/atom.xml">rss</a>)</span>
+</footer>
+
+
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'shellfly';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://shellfly.github.com/blog/2015/01/07/yi-the-y-combinator-slight-return/';
+        var disqus_url = 'http://shellfly.github.com/blog/2015/01/07/yi-the-y-combinator-slight-return/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
