@@ -4,7 +4,7 @@
   <title><![CDATA[翼をください]]></title>
   <link href="http://shellfly.github.com/atom.xml" rel="self"/>
   <link href="http://shellfly.github.com/"/>
-  <updated>2015-01-08T00:08:59+08:00</updated>
+  <updated>2015-01-08T22:22:32+08:00</updated>
   <id>http://shellfly.github.com/</id>
   <author>
     <name><![CDATA[shellfly]]></name>
@@ -63,14 +63,55 @@ Lisper got to tell himself he understand.
 
 <p>我们通过定义几个计算阶乘的函数来开始我们的Y combinator之旅，一个非负整数的阶乘就是从1一直乘到它自己，所以我们有：</p>
 
-<p class="indent">    factorial 1 = 1
-    factorial 2 = 2 * 1 = 2
-    factorial 3 = 3 * 2 * 1 = 6
-    factorial 4 = 4 * 3 * 2 *1 = 24
+<p class="indent">factorial 1 = 1
+factorial 2 = 2 * 1 = 2
+factorial 3 = 3 * 2 * 1 = 6
+factorial 4 = 4 * 3 * 2 *1 = 24
 </p>
 
 
-<p>等等。（我在这里写函数时没有用括号，所以 factorial 3 和通常写的factorial(3)是一样的，真的，相信我。）阶乘随着n的增长增长的很快，20的阶乘是2432902008176640000。0的阶乘被定义成1，事实证明这对于实际使用阶乘的时候是个合适的定义（比如解决组合数学的问题）。</p>
+<p>等等。（我在这里写函数时没有用括号，所以 factorial 3 和通常写的factorial(3)是一个意思，真的，相信我。）阶乘随着n的增长增长的很快，20的阶乘是2432902008176640000。0的阶乘被定义成1，事实证明这对于实际使用阶乘的场合是个非常合适的定义（比如解决组合数学问题的时候）。</p>
+
+<h2>递归定义阶乘函数</h2>
+
+<p>在编程语言里用一些像<code>while</code>和<code>for</code>这种循环控制语句，就能很容易地写出计算阶乘的函数（比如C或者Java）。但是写一个递归函数来计算阶乘也很简单，因为阶乘的定义就是递归的：</p>
+
+<p class="indent">factorial 0 = 1
+factorial n = n * factorial (n - 1)
+</p>
+
+
+<p>第二行适用于所有非0的<code>n</code>，事实上在计算机语言<a href="http://www.haskell.org/">Haskell</a>里，这就是实际定义阶乘函数的方式。在我们要用的<a href="http://www.schemers.org/">Scheme</a>语言里，这个函数会被写成这样：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='Scheme'><span class='line'><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">factorial</span> <span class="nv">n</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>      <span class="mi">1</span>
+</span><span class='line'>      <span class="p">(</span><span class="nb">* </span><span class="nv">n</span> <span class="p">(</span><span class="nf">factorial</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)))))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在Scheme里所有东西都是用括号括起来的前缀表达式，所以像<code>(- n 1)</code>这种就表示一般在其他编程语言里写的<code>n - 1</code>。至于要这么写的原因超出了这篇文章要说的范围，就不细说了，但是要习惯这种写法并不难。</p>
+
+<p>事实上，上面关于阶乘函数在Scheme里面的定义，可以写成下面这种更明确的方式:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='Scheme'><span class='line'><span class="p">(</span><span class="k">define </span><span class="nv">factorial</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>        <span class="mi">1</span>
+</span><span class='line'>        <span class="p">(</span><span class="nb">* </span><span class="nv">n</span> <span class="p">(</span><span class="nf">factorial</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">))))))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>关键字<code>lambda</code>只是简单的表示我们在定义的（就是lambda左边小括号和它对应的括号之间所有的东西）是一个函数。紧跟在<code>lambda</code>后面，括号中的是函数的<em>参数列表</em>，这里只有一个参数<code>n</code>.<em>函数体</em>跟在参数列表后面，这里由<code>(if (= n 0) 1 (* n (factorial (- n 1))))</code>组成。这种函数叫<em>匿名函数</em>。我们在这里给了匿名函数一个名字<code>factorial</code>，但这其实不是必须的，而且通常如果你只准备用一次的话，一般是不给名字。在Scheme和其他一些语言里面，匿名函数也被叫做<em>lambda表达式</em>。有许多其他语言也允许你定义匿名函数，包括Python，Ruby，Javascript，Ocaml和Haskell（但是不幸的是，在C，C++和Java里不行）。下面我们会用到很多lambda表达式。</p>
 ]]></content>
   </entry>
   
