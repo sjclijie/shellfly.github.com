@@ -10,13 +10,14 @@ hr{
     border: none;
     border-bottom: 1px solid #ccc;
 }
-p{
+p, pre{
     line-height:27px;
     letter-spacing:1px;
 }
 
 p.indent{
     white-space: pre;
+    padding-left: 28px;
 }
 p.meta{
     margin-top:-15px;
@@ -24,9 +25,6 @@ p.meta{
     a:link {
         color:#777;
     }
-}
-pre{
-    max-width:700px;
 }
 
 #octopress_linkback {
