@@ -30,11 +30,11 @@ or:
 
 在详细说明Y combinator到底是什么之前，我想先指出，为什么你，作为一个程序员，应该花时间来学习它。说实话，并没有多少实际的理由让你一定要学习Y combinator。虽然它的确有一点实际的作用，而且大部分是对于计算机语言学家们。尽管如此，我还是觉得你值得花时间来了解一点Y combinator的东西，因为：
 
-1。 它是编程中最美的想法之一，如果你稍微有一点对于编程的审美，你一定会被Y combinator打动。
+1. 它是编程中最美的想法之一，如果你稍微有一点对于编程的审美，你一定会被Y combinator打动。
 
-2。 它以一种非常质朴的方式展现出函数式编程的简单想法是多么惊人和强大。
+2. 它以一种非常质朴的方式展现出函数式编程的简单想法是多么惊人和强大。
 
-1959年，英国科学家C。 P。 Snow做了一场有名的讲座，叫 **[The Two Cultures](http://en。wikipedia。org/wiki/The_Two_Cultures)** ，在讲座中他哀叹当时很多头脑聪明教育良好的人却对科学一无所知。他用热力学第二定律的知识作为可以认知科学和无法认知科学的人的分界线。我想我们同样可以用Y combinator的知识作为了解函数式编程（也就是说，掌握足够的函数式编程知识）和不了解函数式编程的程序员之间的分界线。有一些其他工具也可以代替Y combinator很好的工作（尤其是monads），但是Y combinator会完成的更漂亮。所以如果你渴望知道真正的Lambda本质，那就继续读下去。
+1959年，英国科学家C.P. Snow做了一场有名的讲座，叫 **[The Two Cultures](http://en。wikipedia。org/wiki/The_Two_Cultures)** ，在讲座中他哀叹当时很多头脑聪明教育良好的人却对科学一无所知。他用热力学第二定律的知识作为可以认知科学和无法认知科学这两种人的分界线。我想我们同样可以用Y combinator的知识作为了解函数式编程（也就是说，掌握足够的函数式编程知识）和不了解函数式编程的程序员之间的分界线。有一些其他工具也可以代替Y combinator很好的工作（尤其是monads），但是Y combinator会完成的更漂亮。所以如果你渴望知道真正的Lambda本质，那就继续读下去。
 
 顺便提一下，[Paul Graham](http://www。paulgraham。com/)(Lisp黑客，Lisp书籍作家，随笔作家，现在也是一名企业家)显然把Y combinator看的更重，他用[Y combinator](http://www。ycombinator。com/)来命名他的创业孵化器公司。Paul通过这些知识变的富有，也许有其他人也会，也许甚至就是你。
 
@@ -58,9 +58,10 @@ factorial 4 = 4 * 3 * 2 *1 = 24
 
 在编程语言里用一些像 `while` 和 `for` 这种循环控制语句，就能很容易地写出计算阶乘的函数（比如C或者Java）。不过写一个递归函数来计算阶乘也很简单，因为阶乘的定义本身就是递归的：
 
-<p class="indent">factorial 0 = 1
+``` Haskell
+factorial 0 = 1
 factorial n = n * factorial (n - 1)
-</p>
+```
 
 第二行适用于所有非0的 `n` ，事实上在计算机语言[Haskell](http://www。haskell。org/)里，这就是实际定义阶乘函数的方式。在我们要用的[Scheme](http://www。schemers。org/)语言里，这个函数会被写成这样：
 
@@ -156,13 +157,16 @@ Combinator就是一个*不使用自由变量的lambda 表达式*，我们上面�
        1
        (* n (factorial (- n 1))))))
 ```
+
 你可以不考虑它的 `define` 部分，所以你真正想知道的是这个lambda表达式：
+
 ```Scheme
 (lambda (n)
   (if (= n 0)
       1
       (* n (factorial (- n 1)))))
 ```
+
 是不是一个combinator。因为这个lambda表达式里面 `factorial` 代表一个自由变量（ `factorial` 不在lambda表达式的参数里面），这个不是一个combinator。这对于下面要说的东西是很重要的一点。实际上 `=` ，  `*` ， `-` 这些都是自由变量，所以即使没有用 `factorial` ，这也不是一个combinator（更何况还有数字!）。
 <hr />
 
@@ -171,6 +175,7 @@ Combinator就是一个*不使用自由变量的lambda 表达式*，我们上面�
 ## 抽象出递归的函数调用
 
 回忆下我们之前的阶乘函数：
+
 ``` Scheme
 (define factorial
   (lambda (n)
@@ -178,6 +183,7 @@ Combinator就是一个*不使用自由变量的lambda 表达式*，我们上面�
         1
         (* n (factorial (- n 1))))))
 ```
+
 我们想做的是，想出一个可以同样工作的版本，但是不要函数体里那个碍眼的递归调用 `factorial`。
 
 我们应该从哪里开始？如果我们可以保留函数的其他部分，不要递归调用，放一些其他东西在那就好了。可能看起来像这样：
@@ -189,6 +195,7 @@ Combinator就是一个*不使用自由变量的lambda 表达式*，我们上面�
         1
         (* n (<???> (- n 1))))))
 ```
+
 这种形式仍然留给我们一个问题，我们应该在 `<???>` 这里放什么。在函数式语言里有一个行之有效的原则，如果你不确定在某个地方应该写一段什么代码，就把它抽象出来作为一个函数的参数。最简单的方式就是下面这样：
 
 ```Scheme
@@ -205,20 +212,23 @@ Combinator就是一个*不使用自由变量的lambda 表达式*，我们上面�
 
 有很重要的一点要意识到，这个方法并不是 `factorial` 特有的，我们可以把同样的方法应用在任何递归函数上面。例如，一个计算斐波那契数字的递归函数。斐波那契的递归定义如下：
 
-<p class="indent">fibonacci 0 = 0
+``` Haskell
+fibonacci 0 = 0
 fibonacci 1 = 1
 fibonacci n = fibonacci (n - 1) + fibonacci (n - 2)
-<p>
+```
+
 (实际上，这是Haskell里斐波那契函数的定义)。在Scheme里面，我们可以把这个函数写成这样：
 
-```Scheme
+``` Scheme
 (define fibonacci
   (lambda (n)
     (cond ((= n 0) 0)
           ((= n 1) 1)
           (else (+ (fibonacci (- n 1) (fibonacci - n 2)))))))
 ```
-（ `cond` 只是一个写嵌套 `if` 表达式的快捷方式）我们现在就可以像对 `factorial` 那样，移除这里的显示递归调用：
+
+（`cond` 只是一个写嵌套 `if` 表达式的快捷方式）我们现在就可以像对 `factorial` 那样，移除这里的显示递归调用：
 
 ```Scheme
 (define almost-fibonacci
@@ -293,7 +303,7 @@ fibonacci n = fibonacci (n - 1) + fibonacci (n - 2)
 
 它的意思是这样的：假设 `factorialA` 是一个合法的阶乘函数。然后我们把它传给 `almost-factorial` ，返回的函数也将是一个合法的阶乘函数，那为什么不直接把这个返回函数也叫 `factorialA` 呢？
 
-看起来我们好像造了一个永动机（或者应该说是永计算机），这里面一定有哪里错了。。。一定错了吗？
+看起来我们好像造了一个永动机（或者应该说是永计算机），这里面一定有哪里错了...一定错了吗？
 
 实际上，只要你使用的Scheme语言是惰性求值的，这个定义就可以正常的动作！标准的Scheme实现是严格求值的，所以它并不能工作（会陷入死循环）。如果你用[DrRacket](http://racket-lang.org/)作为Scheme解释器（你应该使用这个解释器，译者注：原文是DrScheme，现在已经改名成DrRacket，下面的都会替换掉，不在重复），然后打开"lazy Scheme"选项，上面的代码就可以实际的工作了（欢呼！）。我们下面会看到为什么，但是现在我想停留在标准（严格求值的）Scheme实现上用一种不同的方式继续探索这个问题。
 
@@ -306,9 +316,9 @@ fibonacci n = fibonacci (n - 1) + fibonacci (n - 2)
 
 `identity` 是个很简单的函数：它接受一个参数，然后原封不动的返回（它也是一个combinator，希望你还记得）。我们只是用它来做为一个占位符，当我们需要把一个函数作为参数传递给另外一个函数时，如果我们不知道该传递什么函数，就先用 `identity` 。
 
-`factorial0`更有趣。它是一个可以计算部分但不是所有阶乘的函数。特别地，它只能计算小于等于0的阶乘（也就是它只能计算0的阶乘，很快你就会知道为什么我要写小于等于）。让我们验证一下：
+`factorial0`更有趣。它是一个可以计算部分但不是所有阶乘的函数。特别地，它只能计算小于等于0的阶乘（也就是它只能计算0的阶乘，很快你就会知道为什么我要写小于等于）。让我们验证一下(译者注：因为markdown转换的原因，下面两个n前面的空白应该是 `*`)：
 
-{% codeblock lang:Scheme %}
+``` Scheme
 (factorial0 0)
 
 ==> ((almost-factorial identity) 0)
@@ -332,9 +342,9 @@ fibonacci n = fibonacci (n - 1) + fibonacci (n - 2)
         (* n (identity (- n 1))))
 
 ==> 1
-{% endcodeblock %}
+```
 
-它计算出来了，但是不幸的是，对于 `n > 0` 它并不能工作。比如对于`n = 1` 我们就有（跳过了一些步骤）：
+可以计算出来，但不幸的是，对于 `n > 0` 它并不能工作。比如对于`n = 1` 我们就有（跳过了一些步骤）：
 
 ``` Scheme
 (factorial0 1)
@@ -344,9 +354,10 @@ fibonacci n = fibonacci (n - 1) + fibonacci (n - 2)
 ==> (* 1 0)
 ==> 0
 ```
+
 得到的是错误的答案。
 
-现在考虑一下这个`factorial0`的进化版本：
+现在考虑一下这个 `factorial0` 的进化版本：
 
 ``` Scheme
 (define factorial1
@@ -362,7 +373,7 @@ fibonacci n = fibonacci (n - 1) + fibonacci (n - 2)
 ```
 
 这个函数可以准确的计算 `0` 和 `1` 的阶乘，你可以验证一下，但是对于 `n > 1` 则不行。
-（把原文的验证过程省略了）
+（译者注：这里我把原文的验证过程省略了）
 
 我们可以继续下去，定义更多可以计算到某个限制的阶乘函数：
 
@@ -371,14 +382,14 @@ fibonacci n = fibonacci (n - 1) + fibonacci (n - 2)
 (define factorial3 (almost-factorial factorial2))
 (define factorial4 (almost-factorial factorial3))
 (define factorial5 (almost-factorial factorial4))
-。。。
+. . .
 ```
 
-`factorial2` 可以计算 `0` 到 `2` 的阶乘， `factotial3` 可以计算 `0` 到 `3` 的阶乘等等。你可以用上面的模型自己验证，尽管你可能不能再脑子里来验证（至少我做不到）
+`factorial2` 可以计算 `0` 到 `2` 的阶乘， `factotial3` 可以计算 `0` 到 `3` 的阶乘等等。你可以用上面的模型自己验证，不过你不能只靠脑子想想来验证（至少我做不到）
 
 换一种有趣的角度来看，`almost-factorial` 接受一个不完整的阶乘函数，然后返回一个稍微完整一点的版本，新的函数仅仅可以比原来的函数多计算一个阶乘。
 
-注意，你也可以像这样充血这些阶乘函数的定义:
+注意，你也可以像这样重新定义阶乘函数:
 
 ``` Scheme
 (define factorial0 (almost-factorial identity))
@@ -397,7 +408,7 @@ fibonacci n = fibonacci (n - 1) + fibonacci (n - 2)
     (almost-factorial
       (almost-factorial
         (almost-factorial identity)))))
-。。。
+...
 ```
 
 再一次，如果你很聪明的话，你可能会想我们是不是可以这么做：
@@ -407,47 +418,49 @@ fibonacci n = fibonacci (n - 1) + fibonacci (n - 2)
   (almost-factorial
     (almost-factorial
       (almost-factorial
-        。。。))))
+        ...))))
 ```
 
-`。。。`在这里代表重复执行 `almost-factorial`无限次。如果你真的很好奇，你可以在脑子里想象一下！很可惜我们不能把它直接写出来，但是我们可以定义和这个等价的形式。注意 `factorial-infinity` 就是我们想要的 `factorial` 函数：它对于所有大于等于零的数都可以正常工作。
+`...`在这里代表重复执行 `almost-factorial`无限次。如果你很好奇，你可以在脑子里想象一下！很可惜我们不能把它直接写出来，但是我们可以定义和这个等价的形式。注意 `factorial-infinity` 就是我们想要的 `factorial` 函数：它对于所有大于等于零的数都可以正常工作。
 
-我们刚才展示了，如果我们可以定义无限的`almost-factorial`调用，就可以得到阶乘函数。换一种表达方式说，阶乘函数是 `almost-factorial` 的 *固定点（fixpoint）*，我们下面要解释的东西。
+我们刚才展示了，如果我们可以定义无限个`almost-factorial`调用，就可以得到阶乘函数。换一种表达方式说，阶乘函数是 `almost-factorial` 的 *固定点（fixpoint）*，我们下面要解释的东西。
 
 ## 函数的固定点 （Fixpoints of functions）
 
-任何人手边有一个计算器的话，就可以熟悉固定点这个概念。你可以从 `0` 开始一直重复的按 `cos` 键。你会发现答案很快变成一个固定数，大概是 `0。73908513321516067`，在按 `cos` 键也不会改变这个数字，因为 `cos(0。73908513321516067) = 0。73908513321516067` 。我们说数字 `0。73908513321516067` 是cosine函数的一个 *固定点*。
+任何人手边有一个计算器的话，就可以很快熟悉固定点这个概念。你可以从 `0` 开始一直重复的按 `cos` 键。你会发现答案很快变成一个固定数，大概是 `0.73908513321516067`，再按 `cos` 键也不会改变这个数字，因为 `cos(0.73908513321516067) = 0.73908513321516067` 。我们说数字 `0.73908513321516067` 是cosine函数的一个 *固定点*。
 
-cosine函数接受一个参数（一个实数），产生一个输出（也是一个实数）。因为输入和输出是同一种类型，所以才能够重复把输出在作为输入。所以如果 `x` 是一个实数，我们就可以计算 `cos(x)`， 因为结果还是一个实数，所以可以继续计算 `cos(cos(x))` ，`cos(cos(cos(x)))` 等等。如果 `cos(x) = x` ， 那么 `x` 就是cosine函数的固定点。
+cosine函数接受一个参数（一个实数），产生一个输出（也是一个实数）。因为输入和输出是同一种类型，所以才能够重复把输出再作为输入。所以，如果 `x` 是一个实数，我们就可以计算 `cos(x)`， 因为结果还是一个实数，所以可以继续计算 `cos(cos(x))` ，`cos(cos(cos(x)))` 等等。如果 `cos(x) = x` ， 那么 `x` 就是cosine函数的固定点。
 
-固定点不一定要是实数，实际上它们可是是任意类型，只要返回他们的函数可以接受同样类型的输入然后产生同样类型的输出。对我们的讨论最重要的一点是，固定点可以是函数。如果你有一个像 `almost-factorial` 这样的高阶函数，它接受一个函数作为参数，然后产生一个函数作为输出（输入和输出都是一个接受单一整数作为输入， 产生一个整数作为输出的函数），那么就应该可以计算出它的固定点（自然的，结果也是一个可以接受单一整数作为输入，产生一个整数作为输出的函数）。这个固定点函数也就是下面的函数
+固定点不一定要是实数，实际上它们可是是任意类型，只要返回他们的函数可以接受同样类型的输入然后产生同样类型的输出。对我们的讨论最重要的一点是，固定点可以是函数。如果你有一个像 `almost-factorial` 这样的高阶函数，它接受一个函数作为参数，然后产生一个函数作为输出（输入和输出都是一个接受单一整数作为输入， 产生一个整数作为输出的函数），那么就应该可以计算出它的固定点（自然的，结果是一个可以接受单一整数作为输入，产生一个整数作为输出的函数）。这个固定点函数也就是下面的函数
 
-<p class="indent">fixpoint-function = (almost-factorial fixpoint-function)</p>
+```
+fixpoint-function = (almost-factorial fixpoint-function)
+```
 
 通过重复替换等式的右边的 `fixpoint-funcation` ，我们可以得到：
  
-<p class="indent">fixpoint-function =
-  (almost-factorial
-    (almost-factorial fixpoint-function))
+```
+fixpoint-function =
+
+(almost-factorial
+  (almost-factorial fixpoint-function))
 
 = (almost-factorial
   (almost-factorial
     (almost-factorial fixpoint-function)))
 
-= 。。。
-
 = (almost-factorial
     (almost-factorial
       (almost-factorial
         (almost-factorial
-          (almost-factorial 。。。)))))
-</p>
+          (almost-factorial ...)))))
+```
 
 就像上面看到的，这就是我们想要的阶乘函数。所以 `almost-factorial` 的固定点就是 `factorial` 函数。
 
-目前为止都还不错，但是只是知道 `factorial` 是 `almost-factorial` 的固定点并不能告诉我们怎么来计算出它。如果有一个高阶函数可以接受像 `almost-factorial`  这种函数作为参数，然后输出它的固定点函数，那不是很好吗。如果可以的话就会返回 `factorial`? 是不是想的太美了？
+目前为止都还不错，但是只是知道 `factorial` 是 `almost-factorial` 的固定点并不能告诉我们怎么来计算出它。如果有一个高阶函数可以接受像 `almost-factorial`  这种函数作为参数，然后输出它的固定点函数，那不是很好吗。如果可以的话就会返回 `factorial`? 是不是有点想的太美了？
 
-这个函数的确存在，就是Y combinator。Y combinator又称*固定点组合子（fixpoint combinaotr）* 。 它接受一个函数然后返回它的固定点。
+这个函数的确存在，它就是Y combinator。Y combinator又称*固定点组合子（fixpoint combinaotr）* 。 它接受一个函数然后返回它的固定点。
 
 ## 消除（大部分）显示递归（惰性求值版本）
 
@@ -455,19 +468,27 @@ cosine函数接受一个参数（一个实数），产生一个输出（也是�
 
 我们从指定Y combinator可以做什么开始：
 
-<p class="indent">(Y f) = fixpoiint-of-f</p>
+```
+(Y f) = fixpoiint-of-f
+```
 
 关于 `f` 的固定点，我们已经知道
 
-<p class="indent">(f fixpoint-of-f) = fixpoint-of-f</p>
+```
+(f fixpoint-of-f) = fixpoint-of-f
+```
 
 通过函数固定点的定义，我们有：
 
-<p class="indent">(Y f) = fixpoint-of-f = (f fixpoint-of-f)</p>
+```
+(Y f) = fixpoint-of-f = (f fixpoint-of-f)
+```
 
 我们可以用 `(Y f)` 替换 `fixpoint-of-f`，然后就能得到:
 
-<p class="indent">(Y f) = (f (Y f))</p>
+```
+(Y f) = (f (Y f))
+```
 
 看啊，我们刚才定义了Y combinator，如果你想把它表示成一个Scheme函数，我们可以把它写成这样：
 
@@ -483,10 +504,10 @@ cosine函数接受一个参数（一个实数），产生一个输出（也是�
     (f (Y f))))
 ```
 
-但是，关于这个Y combinator的定有，有两个警告：
+但是，关于这个Y combinator的定义，有两个警告：
 
-1。 它只能在惰性求值的语言下工作（看下面）
-2。 它不是一个combinator，因为函数体里面的 `Y` 是自由变量，只有定义结束了才被绑定。换句话说，我们不能在需要的时候只有这个版本的函数体，因为它还需要 `Y` 在某个地方被定义。
+1. 它只能在惰性求值的语言下工作（看下面）
+2. 它不是一个combinator，因为函数体里面的 `Y` 是自由变量，只有定义结束了才被绑定。换句话说，我们不能在需要的时候只有这个版本的函数体，因为它还需要 `Y` 在某个地方被定义。
 
 尽管如此，如果你使用惰性的Scheme，你确实可以像这样定义Y combinator：
 
@@ -504,33 +525,40 @@ cosine函数接受一个参数（一个实数），产生一个输出（也是�
           
 (define factorial (Y almost-factorial))
 ```
+
 而且它也能正常的工作。
 
-我们刚刚完成了什么？我们最初是想定义一个不使用显示递归的阶乘函数。我们*几乎*已经完成了。我们对于 `Y` 的定义仍然是递归的，但是我们跨出了巨大的一步，因为这是我们在语言里定义递归函数唯一需要的现实递归。有了这个版本的 `Y` 我们就可以继续定义其他递归函数(比如，把 `fibonacci` 定义成 `(Y almost-fibonacci)`)。
+我们刚刚完成了什么？我们最初是想定义一个不使用显示递归的阶乘函数。我们*几乎*已经完成了。我们对于 `Y` 的定义仍然是递归的，但是我们跨出了巨大的一步，因为这是我们在语言里定义递归函数唯一需要的显示递归。有了这个版本的 `Y` 我们就可以继续定义其他递归函数(比如，把 `fibonacci` 定义成 `(Y almost-fibonacci)`)。
 
 ## 消除（大部分）显示递归（严格求值版本） ##
 
-我刚才说了我们推动出来的 `Y` 不能再严格求值的语言里工作（像标准的Scheme语言）。再一个严格求值的语言里，在把参数传递给函数前，我们要执行所有的参数来得到对应的值，不管这些参数是不是需要被求值。所以如果我们有一个函数 `f`，并且尝试用上面的定义去执行 `(Y f)` ，我们只能得到：
+刚才说了我们推导出来的 `Y` 不能在严格求值的语言里工作（像标准的Scheme语言）。在严格求值的语言里，把参数传递给函数前，我们要执行所有的参数来得到对应的值，不管这些参数是不是需要被求值。所以如果我们有一个函数 `f`，并且尝试用上面的定义去执行 `(Y f)` ，我们只能得到：
 
-<p class="indent">(Y f)
+```
+(Y f)
 = (f (Y f)) 
 = (f (f (Y f)))
 = (f (f (f (Y f))))
-。。。
-</p>
-无休止的执行下去。执行 `(Y f)` 的过程永远不会终止，所以我们永远也得不到一个可以用的函数。惰性求值的Y combinator定义并不适合严格求值的语言。
+...
+```
 
-但是，有一个聪明的技巧我们可以用来解决这个问题并且定义一个可以在严格求值的语言下正常工作的Y combinator。这个技巧就是明白 `(Y f)` 将会是一个函数的参数，所以下面的等式也是成立的：
+无休止的执行下去。执行 `(Y f)` 的过程永远不会终止，所以我们永远也得不到一个可以用的函数。惰性求值的Y combinator定义并不适用于严格求值的语言。
 
-<p class="indent">(Y f) = (lambda (x) ((Y f) x))</p>
+但是，有我们可以用一个一个聪明的技巧来解决这个问题并且定义一个可以在严格求值的语言下正常工作的Y combinator。这个技巧就是明白 `(Y f)` 将会是个接受一个参数的函数，所以下面的等式也是成立的：
 
-无论 `(Y f)` 得到的是一个什么样的接受一个参数的函数，`(lambda (x) ((Y f) x))` 也将是同样的函数。我们做的只是拿一个输入的值 `x` 然后把它给 `(Y f)` 得到的函数。同样地，下面也是成立的：
+```
+(Y f) = (lambda (x) ((Y f) x))
+```
 
-<p class="indent">cos = (lambda (x) (cos x))</p>
+无论 `(Y f)` 返回的是一个什么样的接受一个参数的函数，`(lambda (x) ((Y f) x))` 也将是同样的函数。我们做的只是接受一个输入的值 `x` 然后把它传给 `(Y f)` 得到的函数。同样地，下面也是成立的：
+
+```
+cos = (lambda (x) (cos x))
+```
 
 用 `cos` 或者 `(lambda (x) (cos x))` 作为cosine函数都无所谓，它们做的都是同样的事。
 
-但是，事实证明在严格求值的语言里定义Y combinator `(lambda (x) ((Y f) x))` 有更大的优势。通过上面的解释，我们可以像这样定义Y combinator：
+但是，事实证明在严格求值的语言里定义Y combinator `(lambda (x) ((Y f) x))` 有更大的优势。经过上面的演示，我们可以像这样定义Y combinator：
 
 ``` Scheme
 (define Y
@@ -538,13 +566,15 @@ cosine函数接受一个参数（一个实数），产生一个输出（也是�
     (f (lambda (x) ((Y f) x)))))
 ```
 
-因为我们知道 `(lambda (x) ((Y f) x)` 和 `(Y f)` 是一样的，所以这也是一个可以和上一个版本一样工作的，合法的Y combinator版本，尽管它比之前的复杂了一点（而且可能在实际中也慢一点）。我们可以用这个版本的Y combinator在惰性求值的Scheme里面定义 `factorial`。
+因为我们知道 `(lambda (x) ((Y f) x)` 和 `(Y f)` 是一样的，所以这也是一个可以和上一个版本一样工作的，合法的Y combinator版本，尽管它比之前的复杂了一点（而且可能实际上也慢一点）。我们可以用这个版本的Y combinator在惰性求值的Scheme里面定义 `factorial`。
 
 关于*这个版本*的Y combinator更酷的是，它也能在一个严格求值的语言下工作（像标准的Scheme语言）！因为当你传递一个函数 `f` 给 `Y` 来获取 `f` 的固定点的时候，它会返回
 
-<p class="indent">(Y f) = (f (lambda (x) ((Y f ) x))</p>
+```
+(Y f) = (f (lambda (x) ((Y f ) x))
+```
 
-这次没有死循环，因为内部的 `(Y f)` 被包围在一个 `lambda` 表达式里面，直到需要的时候才会被执行（因为在Scheme里，在把lambda表达式应用到一个参数之前，函数体里的lambda表达式永远不会执行）。基本上，我们用lambda来推迟了 `(Y f)` 的执行。所以如果 `f` 是 `almost-factorial`，我们就有：
+这次没有死循环，因为内部的 `(Y f)` 被包装在一个 `lambda` 表达式里面，直到需要的时候才会被执行（因为在Scheme里，在把lambda表达式应用到一个参数之前，函数体里的lambda表达式永远不会执行）。基本上，我们用lambda来推迟了 `(Y f)` 的执行。所以如果 `f` 是 `almost-factorial`，我们就有：
 
 ``` Scheme
 (define almost-factorial
@@ -580,7 +610,7 @@ cosine函数接受一个参数（一个实数），产生一个输出（也是�
 
 这里还是的，`(lambda (x) ((Y almost-factorial) x)` 和 `(Y almost-factorial)` 是同一个函数， 都是 `almost-factorial` 的固定点，也就是阶乘函数。但是在 `(lambda (x) ((Y almost-factorial) x)` 里面的 `(Y almost-factorial))` 直到整个lambda表达式被应用到它的参数的时候才会被执行，这个只会在后面才发生（或者永远不会被执行，比如计算0的阶乘的时候）。所以这个阶乘函数可以在一个严格求值的语言里工作，而且这个版本的Y也能在一个严格求值的语言里工作。
 
-我意识到前面的讨论和推导的东西不是那么轻松，所以如果你没有马上明白的话也不要灰心。好好考虑一下，在脑子里和值得幸赖的DrScheme解释器里尝试一下，你最终会弄明白的。
+我意识到前面的讨论和推导的东西不是那么轻松，所以如果你没有马上明白的话也不要灰心。好好考虑一下，在脑子里和值得幸赖的DrRacket解释器里尝试一下，你最终会弄明白的。
 
 目前为止，我们已经完成了我们之前设定的所有事，除了一个微小的细节：我们还没有推导Y combinator它自己。
 <hr/>
@@ -619,7 +649,7 @@ Y在这里就是自由变量，它没有被任何lambda表达式绑定。所以�
       (* n (factorial (- n 1)))))
 ```
 
-记得最开始我们是想定义一个没有显示递归的版本。其中一个方法是把阶乘函数自己作为调用阶乘函数时的一个额外的参数：
+记得最开始，我们是想定义一个没有显示递归的版本。其中一个方法是把阶乘函数自己作为调用阶乘函数时的一个额外的参数：
 
 ``` Scheme
 ;; 这个还不能用:
@@ -631,7 +661,9 @@ Y在这里就是自由变量，它没有被任何lambda表达式绑定。所以�
 
 注意这里的 `part-factorial` 和 上面描述的`almost-factorial` 并不一样。我们可以用一种不同的方式调用 `part-factorial` 好让它可以计算阶乘：
 
-<p class="indent">(part-factorial part-factorial 5) ==> 120</p>
+```
+(part-factorial part-factorial 5) ==> 120
+```
 
 这个不是显示递归，因为我们把 `part-factorial` 的额外拷贝作为 `self` 传递给了函数。不过它还不能工作，除非在递归的地方用完全一样的方式来调用：
 
@@ -651,7 +683,7 @@ Y在这里就是自由变量，它没有被任何lambda表达式绑定。所以�
   (lambda (n)
     (if (= n 0)
         1
-        (* n (* (self self) (- n 1))))))
+        (* n ((self self) (- n 1))))))
 
 ((part-factorial part-factorial) 5) ==> 120
 (define factorial (part-factorial part-factorial))
@@ -674,8 +706,7 @@ Y在这里就是自由变量，它没有被任何lambda表达式绑定。所以�
 (factorial 5) ==> 120
 ```
 
-这个可以在惰性求值的语言下工作。在一个严格求值的语言里，`let` 表达式中的 `(self self)` 调用会导致死循环，因为为了计算 `(part-factorial part-factorial)`(在 `factorial` 的定义里)，就需要先计算 `(part-factorial part-factorial)`(在 `let` 表达式里面)。(玩一下：找出为什么对于前一个定义这不是一个问题。)。我准备就到这了，因为我想定义的就是一个
-惰性的Y combinator，但是下一节我会用之前同样的方式解决这个问题（通过把 `(self self)`的调用包在一个 `lambda` 里面）。注意在惰性求值的语言里面， `(self self)`调用永远不会求值，除非确实需要 `f`(比如，如果 `n = 0`，就不需要 `f`来计算结果，所以 `(self self)`不会被执行)。理解惰性求值的语言怎么执行表达式不是很轻松，所以如果你觉得有点疑惑也不要担心。建议你打开DrRacket（原文是DrScheme，现在已经改名）的惰性Scheme语言选项，来试验这里的代码，这样你就可以更好地理解这里发生了什么。
+这个可以在惰性求值的语言下工作。在一个严格求值的语言里，`let` 表达式中的 `(self self)` 调用会导致死循环，因为为了计算 `(part-factorial part-factorial)`(在 `factorial` 的定义里)，就需要先计算 `(part-factorial part-factorial)`(在 `let` 表达式里面)。(玩一下：找出为什么对于前一个定义这不是一个问题)。我准备就到这了，因为我现在在推导惰性的Y combinator，但是下一节我会用之前同样的方式解决这个问题（通过把 `(self self)` 的调用包在一个 `lambda` 里面）。注意在惰性求值的语言里面， `(self self)`调用永远不会被求值，除非确实需要 `f` (比如，如果 `n = 0`，就不需要 `f` 来计算结果，所以 `(self self)` 不会被执行)。理解惰性求值的语言怎么执行表达式不是很轻松，所以如果你觉得有点疑惑也不要担心。建议你打开DrRacket的惰性语言选项，来试验这里的代码，这样你就可以更好地理解这里发生了什么。
 
 事实证明使用下面的等式，任一 `let` 表达式都可以被转换成等价的 `lambda` 表达式：
 
@@ -746,7 +777,7 @@ Y在这里就是自由变量，它没有被任何lambda表达式绑定。所以�
     (x x)))
 ```
 
-现在我们把同样的 `let` 转换成 `lambda` 的方法应用到上面：
+现在我们把同样把 `let` 转换成 `lambda` 的方法应用到上面：
 
 ``` Scheme
 (define factorial
@@ -814,32 +845,35 @@ Y在这里就是自由变量，它没有被任何lambda表达式绑定。所以�
 
 剩下的事就是检查这个Y combinator是一个固定点组合子（只有是固定点组合子它才能计算出正确的结果）。为了验证这个，我们需要演示下面的等式是正确的：
 
-<p class="indent">(Y f) = (f (Y f))</p>
+```
+(Y f) = (f (Y f))
+```
 
 从上面惰性求值的Y combinator定义可以知道：
 
-<p class="indent">(Y f)
+```
+(Y f)
 
 = ((lambda (x) (f (x x )))
    (lambda (x) (f (x x))))
-</p>
+```
 
 把第一个lambda表达式应用到它的参数上，也就是第二个lambda表达式，就能得到：
 
-<p class="indent">
+```
 = (f ((lambda (x) (f (x x)))
       (lambda (x) (f (x x)))
 
 = (f (Y f))
-</p>
+```
 
-和预想的一样。所以它不仅是一个惰性求值的Y combinator，也是一个固定点组合子。它就是最明显的一个固定点组合子，所以刚才的证明一点也不重要。
+和预想的一样。所以它不仅是一个惰性求值的Y combinator，也是一个固定点组合子。它就是最明显的一个固定点组合子，所以刚才的证明其实不怎么重要。
 
-如果你自己做完了这些推导，你可以好好休息一下了，休息好以后，我们就可以开始推导...
+如果你自己完成了这些推导，那你可以好好休息一下了，休息好以后，我们就可以开始推导...
 
-## 严格求值（应用序）Y combinator
+## 严格（应用序）Y combinator
 
-我们看一下之前不能再严格求值语言里使用的推导：
+我们看一下之前不能在严格求值语言里使用的推导：
 
 ``` Scheme
 (define (part-factorial self)
@@ -852,6 +886,7 @@ Y在这里就是自由变量，它没有被任何lambda表达式绑定。所以�
 (define factorial (part-factorial part-factorial))
 (factorial 5) ==> 120
 ```
+
 到目前为止还都可以在严格求值的语言里工作。如果我们像之前一样把 `(self self)`拿到一个 `let` 表达式里面，就有：
 
 ``` Scheme
@@ -883,7 +918,7 @@ Y在这里就是自由变量，它没有被任何lambda表达式绑定。所以�
 
 在我们完成这一步以后， `part-factorial` 函数现在已经可以在一个严格求值的语言里工作。因为一旦 `(part-factorial part-factorial)` 被执行，执行过程中的 `let` 表达式 `(lambda (y) ((self self) y))` 也会被执行。但是和之前不同的是，这一次我们不会陷入死循环，lambda表达式在应用到它的参数之前并不会被执行。这个lambda包装器并没有改变包装的东西，但是却延迟了被包装函数的执行。这就是我们为了让 `part-factorial` 能够在严格求值的语言里工作需要的一切。
 
-这就是我们用的方法，之后我们继续其他推导步骤，就能得到严格求值的Y combinator的定义：
+这就是我们用的方法，现在我们继续之前的推导步骤，就能得到严格求值的Y combinator的定义：
 
 ``` Scheme
 (define Y
@@ -901,25 +936,65 @@ Y在这里就是自由变量，它没有被任何lambda表达式绑定。所以�
       (lambda (x) (f (lambda (y) ((x x) y)))))))
 ```
 
-希望你能看出为什么他们是等价的。着两个都是严格求值的Y combinator，或者按照技术文献里的叫法*应用序Y combinator*。在一个严格求值的语言里面（像标准的Scheme）你可以按通常的方式用这个来定义阶乘函数：
+希望你能看出为什么他们是等价的。这两个都是严格求值的Y combinator，或者按照技术文献里的叫法，*应用序Y combinator*。在一个严格求值的语言里面（像标准的Scheme）你可以按通常的方式用这个来定义阶乘函数：
 
 ``` Scheme
 (define factorial (Y almost-factorial))
 ```
 
-我建议你用DrRacket尝试一遍，感受一下应用序Y combinator令人震撼的力量，可以在递归还没存在的时候创建递归。
+我建议你用DrRacket尝试一遍，感受一下应用序Y combinator令人震撼的力量，可以在递归还不存在的时候创建递归。
+
+<hr />
+
+## 其他事项 ##
+
+## 实际的应用 ##
+
+（我希望）这篇文章已经让你相信，你不需要一个语言内建显式递归来允许你定义递归函数，只要这个语言支持first-class函数可以用来定义Y combinator。但是我不是想让你以为递归在真正的计算机语言里就是这样实现的。实际上，如果是在计算机语言里直接实现递归会比使用Y combinator效率的多。关于怎样有效的实现递归，有很多其他有趣的问题，但是这些问题超过了这篇文章要说的范围。我想说的是，使用Y combinator实现递归主要是理论兴趣。
+
+尽管如此，在[Y in Practical Programs](http://citeseer.ist.psu.edu/mcadams01practical.html) 论文里，Bruce McAdams讨论了用Y combinator定义递归函数的变体的一些方法，比如，打印函数的执行流程和自动记住函数执行的结果来优化函数（还有一些其他难懂的应用），所以Y combinaotr不*仅仅只是*一个理论概念。
+
+## 相互递归（Mutual Recursion） ##
+
+有经验的函数式程序员或者某些精明的读者可能注意到了，我没有讨论怎么用Y combinator来实现*相互递归*，也就是有两个以上的函数互相调用。我能想到的最简单的能演示相互递归的例子就是下面两个函数，判断一个非负整数是偶数还是奇数：
+
+``` Scheme
+(define (even? n)
+  (if (= n 0)
+      #t
+      (odd? (- n 1))))
+
+(define (odd? n)
+  (if (= n 0)
+      #f
+      (even? (- n 1))))
+```
+
+在你准备冲我喊之前，是的，我知道这不是计算一个数是偶数还是奇数最有效的方式——我只是用它来说明相互递归是什么。任何支持定义递归函数的语言都要支持相互递归，但是我没有演示怎么用Y combinator来定义相互递归的函数。我准备就写到这了因为我觉的这篇文章已经够长了，但是请放心，定义和Y combinator的对应形式来定义相互递归是可能的。
+
+## 扩展阅读 ##
+
+* Wikipedia的文章[Y combinator](http://en.wikipedia.org/wiki/Y_combinator)读起来比较难，不过里面有一些有趣的我没有说到材料。
+
+* [The Little Schemer](http://www.amazon.com/Little-Schemer-Daniel-P-Friedman/dp/0262560992/ref=pd_bbs_sr_1?ie=UTF8&s=books&qid=1218099185&sr=8-1)，第4版，作者Dan Friedman和Matthias Felleisen。第9章有一个Y combinator的推导，让我开始对这个主题感兴趣。
+
+* [Y in Practial Programs](http://citeseer.ist.psu.edu/mcadams01practical.html)，作者Bruce McAdams，在前一节中有提到。
+
+<hr />
+
+## 致谢 ##
+
+我想感谢下面这些人：
+
+* 所有评论过我第一篇Y combinator文章的人，还有所有评论这篇文章的人。
+
+* Eli Barzilay，因为一封有趣的关于这个主题的邮件讨论。正则序Y combinator的推导是直接从Eli那里拿来的（经过允许的）
+
+* 我的好朋友Darius Bacon，文章开头的诗。我想对滥用Kurt Vonnegut的作品表示道歉。诗的出处是Vonnegut一篇杰出的小说[Cat's Cradle](http://www.amazon.com/Cats-Cradle-Kurt-Vonnegut/dp/038533348X/ref=pd_bbs_sr_1?ie=UTF8&s=books&qid=1217491463&sr=8-1)，如果你还没有读过，你应该尽快读一下。
+
+* 所有的[DrRacket](http://www.drscheme.org/)实现者，给了我一个很棒的工具来探索这个主题。
+
+ * [The Little Schemer](http://www.amazon.com/Little-Schemer-Daniel-P-Friedman/dp/0262560992/ref=pd_bbs_sr_1?ie=UTF8&s=books&qid=1218099185&sr=8-1) 这本书的作者，Dan Friedman和Matthias Felleisen。（至少在我脑子里）这篇文章是对他们书里第9章一个大的扩展。
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+原文链接：http://mvanier.livejournal.com/2897.html

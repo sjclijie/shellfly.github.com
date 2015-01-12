@@ -101,6 +101,7 @@ DEPENDENCIES
   haml (~> 4.0)
   jekyll (~> 2.0)
   jekyll-sitemap
+  kramdown
   octopress-date-format (~> 2.0)
   octopress-hooks (~> 2.2)
   rake (~> 10.0)
